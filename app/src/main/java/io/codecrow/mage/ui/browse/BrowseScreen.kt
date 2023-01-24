@@ -82,8 +82,6 @@ fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hil
     }
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun BrowseScreen(
     items: List<Channel>,

@@ -16,20 +16,14 @@
 
 package io.codecrow.mage.ui.browse
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.codecrow.mage.data.channels.ChannelRepository
+import io.codecrow.mage.data.repository.ChannelRepository
 import io.codecrow.mage.model.Channel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import io.codecrow.mage.ui.browse.BrowseUiState.Error
-import io.codecrow.mage.ui.browse.BrowseUiState.Loading
-import io.codecrow.mage.ui.browse.BrowseUiState.Success
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,15 +31,29 @@ class BrowseViewModel @Inject constructor(
 private val channelRepository: ChannelRepository
 ) : ViewModel() {
 
-    val uiState: StateFlow<BrowseUiState> = channelRepository
-        .channels.map(::Success)
-        .catch { it -> Error(it) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
+    private val _uiState = MutableStateFlow<BrowseUiState>(BrowseUiState.Loading)
+    val uiState: StateFlow<BrowseUiState> = _uiState
 
+
+    init {
+        getChannels()
+    }
     fun enterChannel(_id: String) {
         viewModelScope.launch {
 //            channelRepository.add(name)
         }
+    }
+
+    private fun getChannels() {
+        viewModelScope.launch {
+            channelRepository.getChannels().either({
+                _uiState.value = BrowseUiState.Error(it)
+            }, {
+                Log.d("HERE", it.toString())
+                _uiState.value = BrowseUiState.Success(it)
+            })
+        }
+
     }
 }
 

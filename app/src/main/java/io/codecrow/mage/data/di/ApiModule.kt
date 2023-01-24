@@ -6,7 +6,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.codecrow.mage.data.channels.ChannelApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -24,15 +23,10 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun providesRetrofit(gson: Gson): Retrofit.Builder =
+    fun providesRetrofit(gson: Gson): Retrofit =
         Retrofit.Builder()
-            .baseUrl("https://dev.api.codecrow.io/")
+            .baseUrl("https://dev.api.mage.stream/")
             .addConverterFactory(GsonConverterFactory.create(gson))
-
-    @Singleton
-    @Provides
-    fun providesChannelApi(retrofit: Retrofit.Builder): ChannelApi =
-        retrofit
             .build()
-            .create(ChannelApi::class.java)
+
 }

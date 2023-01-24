@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package io.codecrow.mage.data.channels
+package io.codecrow.mage.data.repository
 
+import io.codecrow.mage.data.DataException
+import io.codecrow.mage.data.Either
 import io.codecrow.mage.data.Result
 import io.codecrow.mage.model.Channel
 import kotlinx.coroutines.flow.Flow
@@ -24,6 +26,5 @@ import kotlinx.coroutines.flow.Flow
  * Interface to the Interests data layer.
  */
 interface ChannelRepository {
-    val channels: Flow<List<Channel>>
-    suspend fun getChannels(): Result<List<Channel>>
+    suspend fun getChannels(): Either<DataException, List<Channel>>
 }

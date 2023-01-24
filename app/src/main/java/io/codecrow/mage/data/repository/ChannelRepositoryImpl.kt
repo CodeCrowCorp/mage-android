@@ -14,22 +14,23 @@
  * limitations under the License.
  */
 
-package io.codecrow.mage.data.channels.impl
+package io.codecrow.mage.data.repository
 
-import io.codecrow.mage.data.Result
-import io.codecrow.mage.data.channels.ChannelRepository
+import io.codecrow.mage.data.DataException
+import io.codecrow.mage.data.Either
+import io.codecrow.mage.data.datasource.ChannelRemote
 import io.codecrow.mage.model.Channel
-import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 /**
  * Implementation of InterestRepository that returns a hardcoded list of
  * topics, people and publications synchronously.
  */
-class ChannelRepositoryImpl : ChannelRepository {
-    override val channels: Flow<List<Channel>>
-        get() = TODO("Not yet implemented")
+class ChannelRepositoryImpl @Inject constructor(
+    private val channelRemote: ChannelRemote
+) : ChannelRepository {
 
-    override suspend fun getChannels(): Result<List<Channel>> {
-        TODO("Not yet implemented")
+    override suspend fun getChannels(): Either<DataException, List<Channel>> {
+        return channelRemote.getChannels()
     }
 }

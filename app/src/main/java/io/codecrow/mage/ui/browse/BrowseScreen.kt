@@ -16,15 +16,16 @@
 
 package io.codecrow.mage.ui.browse
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import android.util.Log
+import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,38 +40,59 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.repeatOnLifecycle
 import io.codecrow.mage.ui.theme.MyApplicationTheme
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.lifecycle.Lifecycle
 import io.codecrow.mage.model.Channel
+import kotlinx.coroutines.flow.collect
 
 @Composable
 fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hiltViewModel()) {
     val lifecycle = LocalLifecycleOwner.current.lifecycle
+    val context = LocalContext.current
     val items by produceState<BrowseUiState>(
         initialValue = BrowseUiState.Loading,
         key1 = lifecycle,
         key2 = viewModel
     ) {
         lifecycle.repeatOnLifecycle(state = STARTED) {
-            viewModel.uiState.collect { value = it }
+            viewModel.uiState.collect {
+                value = it
+            }
+
         }
     }
     if (items is BrowseUiState.Success) {
         BrowseScreen(
             items = (items as BrowseUiState.Success).data,
             enterChannel = viewModel::enterChannel,
-            modifier = modifier
+            modifier = modifier,
+            onClick = {
+                Toast.makeText(context, it.title, Toast.LENGTH_LONG).show()
+            }
         )
     }
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun BrowseScreen(
     items: List<Channel>,
     enterChannel: (_id: String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (Channel) -> Unit = {}
 ) {
     Column(modifier) {
-//        var nameBrowse by remember { mutableStateOf("Compose") }
+        var nameBrowse by remember { mutableStateOf("Compose") }
 //        Row(
 //            modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
 //            horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -84,6 +106,47 @@ internal fun BrowseScreen(
 //                Text("Save")
 //            }
 //        }
+        LazyColumn(modifier = Modifier
+            .fillMaxWidth()
+            .background(color = Color(0xFFf5f5f5))) {
+            itemsIndexed(items) {i: Int, it: Channel ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(126.dp)
+                        .padding(horizontal = 20.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(color = Color(0xFFf5f5f5))
+                        .clickable { onClick(it) }
+                ) {
+
+                    Column {
+                        Text(
+                            text = it.title,
+                            textAlign = TextAlign.Start,
+                            color = Color(0xAA000000),
+                            modifier = Modifier.padding(all = 24.dp),
+                            fontSize = dpToSp(dp = 18.dp)
+                        )
+
+                        Text(
+                            text = it.description,
+                            textAlign = TextAlign.Start,
+                            color = Color(0xAA000000),
+                            modifier = Modifier.padding(horizontal = 24.dp),
+                            fontSize = dpToSp(dp = 14.dp)
+                        )
+
+                        Divider(
+                            color = Color(0xAA000000),
+                            modifier = modifier.height(1.dp)
+                        )
+                    }
+
+
+                }
+            }
+        }
         items.forEach {
             Text("Channel Title: ${it.title}")
         }
@@ -109,3 +172,6 @@ private fun PortraitPreview() {
         BrowseScreen(channels, enterChannel = {})
     }
 }
+
+@Composable
+fun dpToSp(dp: Dp) = with(LocalDensity.current) { dp.toSp() }

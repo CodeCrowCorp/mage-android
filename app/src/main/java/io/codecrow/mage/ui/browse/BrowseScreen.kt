@@ -40,6 +40,7 @@ import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.repeatOnLifecycle
 import io.codecrow.mage.ui.theme.MyApplicationTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
+import io.codecrow.mage.model.Channel
 
 @Composable
 fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hiltViewModel()) {
@@ -56,36 +57,35 @@ fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hil
     if (items is BrowseUiState.Success) {
         BrowseScreen(
             items = (items as BrowseUiState.Success).data,
-            onSave = viewModel::addBrowse,
+            enterChannel = viewModel::enterChannel,
             modifier = modifier
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun BrowseScreen(
-    items: List<String>,
-    onSave: (name: String) -> Unit,
+    items: List<Channel>,
+    enterChannel: (_id: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier) {
-        var nameBrowse by remember { mutableStateOf("Compose") }
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            TextField(
-                value = nameBrowse,
-                onValueChange = { nameBrowse = it }
-            )
-
-            Button(modifier = Modifier.width(96.dp), onClick = { onSave(nameBrowse) }) {
-                Text("Save")
-            }
-        }
+//        var nameBrowse by remember { mutableStateOf("Compose") }
+//        Row(
+//            modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
+//            horizontalArrangement = Arrangement.spacedBy(16.dp)
+//        ) {
+//            TextField(
+//                value = nameBrowse,
+//                onValueChange = { nameBrowse = it }
+//            )
+//
+//            Button(modifier = Modifier.width(96.dp), onClick = { enterChannel(nameBrowse) }) {
+//                Text("Save")
+//            }
+//        }
         items.forEach {
-            Text("Saved item: $it")
+            Text("Channel Title: ${it.title}")
         }
     }
 }
@@ -95,15 +95,17 @@ internal fun BrowseScreen(
 @Preview(showBackground = true)
 @Composable
 private fun DefaultPreview() {
+    var channels = listOf(Channel("","","","",false,listOf(""),listOf(""),"","",true, "channel"))
     MyApplicationTheme {
-        BrowseScreen(listOf("Compose", "Room", "Kotlin"), onSave = {})
+        BrowseScreen(channels, enterChannel = {})
     }
 }
 
 @Preview(showBackground = true, widthDp = 480)
 @Composable
 private fun PortraitPreview() {
+    var channels = listOf(Channel("","","","",false,listOf(""),listOf(""),"","",true, "channel"))
     MyApplicationTheme {
-        BrowseScreen(listOf("Compose", "Room", "Kotlin"), onSave = {})
+        BrowseScreen(channels, enterChannel = {})
     }
 }

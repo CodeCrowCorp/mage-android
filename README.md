@@ -12,7 +12,7 @@
     &nbsp;
     <a href="https://github.com/CodeCrowCorp/mage-android"><img src="https://img.shields.io/badge/built_with-android-3CDA84.svg"></a>
     &nbsp;
-    <a href="https://github.com/CodeCrowCorp/mage-android/actions"><img src="https://github.com/CodeCrowCorp/mage-android/actions/workflows/dev-android.yml/badge.svg"></a>
+    <a href="https://github.com/CodeCrowCorp/mage-android/actions"><img src="https://github.com/CodeCrowCorp/mage-android/actions/workflows/ci-prod.yml/badge.svg"></a>
     &nbsp;
     <a href="https://about.codecov.io/"><img src="https://codecov.io/gh/CodeCrowCorp/mage-android/branch/master/graph/badge.svg"></a>
     &nbsp;

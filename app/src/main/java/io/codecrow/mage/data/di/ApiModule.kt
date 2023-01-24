@@ -1,4 +1,4 @@
-package io.codecrow.mage.ui.di
+package io.codecrow.mage.data.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

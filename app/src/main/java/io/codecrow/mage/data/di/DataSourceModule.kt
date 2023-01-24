@@ -1,4 +1,4 @@
-package io.codecrow.mage.ui.di
+package io.codecrow.mage.data.di
 
 import dagger.Binds
 import dagger.Module

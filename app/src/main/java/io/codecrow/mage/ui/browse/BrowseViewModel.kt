@@ -19,13 +19,14 @@ package io.codecrow.mage.ui.browse
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.codecrow.mage.data.channels.ChannelRepository
+import io.codecrow.mage.model.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import io.codecrow.mage.data.BrowseRepository
 import io.codecrow.mage.ui.browse.BrowseUiState.Error
 import io.codecrow.mage.ui.browse.BrowseUiState.Loading
 import io.codecrow.mage.ui.browse.BrowseUiState.Success
@@ -33,17 +34,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BrowseViewModel @Inject constructor(
-    private val browseRepository: BrowseRepository
+private val channelRepository: ChannelRepository
 ) : ViewModel() {
 
-    val uiState: StateFlow<BrowseUiState> = browseRepository
-        .browses.map(::Success)
-        .catch { Error(it) }
+    val uiState: StateFlow<BrowseUiState> = channelRepository
+        .channels.map(::Success)
+        .catch { it -> Error(it) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
 
-    fun addBrowse(name: String) {
+    fun enterChannel(_id: String) {
         viewModelScope.launch {
-            browseRepository.add(name)
+//            channelRepository.add(name)
         }
     }
 }
@@ -51,5 +52,5 @@ class BrowseViewModel @Inject constructor(
 sealed interface BrowseUiState {
     object Loading : BrowseUiState
     data class Error(val throwable: Throwable) : BrowseUiState
-    data class Success(val data: List<String>) : BrowseUiState
+    data class Success(val data: List<Channel>) : BrowseUiState
 }

@@ -123,4 +123,9 @@ dependencies {
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.runner)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    // Retrofit Gson converter
+    implementation(libs.converter.gson)
 }

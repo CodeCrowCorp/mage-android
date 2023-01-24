@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2022 The Android Open Source Project
+ * Copyright 2020 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package io.codecrow.mage.data.local.database
+package io.codecrow.mage.data.channels
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
+import io.codecrow.mage.data.Result
+import io.codecrow.mage.model.Channel
+import kotlinx.coroutines.flow.Flow
 
-@Database(entities = [Browse::class], version = 1)
-abstract class AppDatabase : RoomDatabase() {
-    abstract fun browseDao(): BrowseDao
+/**
+ * Interface to the Interests data layer.
+ */
+interface ChannelRepository {
+    val channels: Flow<List<Channel>>
+    suspend fun getChannels(): Result<List<Channel>>
 }

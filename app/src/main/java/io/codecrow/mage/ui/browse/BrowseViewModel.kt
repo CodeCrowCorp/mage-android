@@ -20,7 +20,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.codecrow.mage.data.repository.ChannelRepository
+import io.codecrow.mage.data.datasource.ChannelRemote
 import io.codecrow.mage.model.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.*
@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BrowseViewModel @Inject constructor(
-private val channelRepository: ChannelRepository
+private val channelRemote: ChannelRemote
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<BrowseUiState>(BrowseUiState.Loading)
@@ -46,7 +46,7 @@ private val channelRepository: ChannelRepository
 
     private fun getChannels() {
         viewModelScope.launch {
-            channelRepository.getChannels().either({
+            channelRemote.getChannels().either({
                 _uiState.value = BrowseUiState.Error(it)
             }, {
                 Log.d("HERE", it.toString())

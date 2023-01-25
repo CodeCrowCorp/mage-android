@@ -1,14 +1,16 @@
 package io.codecrow.mage.data
 
+import com.google.gson.Gson
+import io.codecrow.mage.model.model.response.ErrorResponse
 import retrofit2.Response
 import java.io.IOException
 
 internal suspend fun <T, R> handle(
     apiCall: suspend () -> Response<T>,
-    errorHandler: () -> Either<DataException, R> = {
+    errorHandler: (ErrorResponse) -> Either<DataException, R> = {
         Either.Left(
             DataException.Api(
-                message = "Something went wrong!",
+                message = it.message ?: "Something went wrong!",
                 status = "ERROR"
             )
         )
@@ -21,15 +23,12 @@ internal suspend fun <T, R> handle(
         try {
             handler(body)
         } catch (e: Exception) {
-            errorHandler()
+            val errorResponse = Gson().fromJson(call.errorBody()?.string(), ErrorResponse::class.java)
+            errorHandler(errorResponse)
         }
     } else {
-        Either.Left(
-            DataException.Api(
-                message = "Something went wrong!",
-                status = "ERROR"
-            )
-        )
+        val errorResponse = Gson().fromJson(call.errorBody()?.string(), ErrorResponse::class.java)
+        errorHandler(errorResponse)
     }
 } catch (e: Exception) {
     e.printStackTrace()

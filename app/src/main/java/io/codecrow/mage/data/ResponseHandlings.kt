@@ -1,7 +1,7 @@
 package io.codecrow.mage.data
 
 import com.google.gson.Gson
-import io.codecrow.mage.model.model.response.ErrorResponse
+import io.codecrow.mage.model.response.ErrorResponse
 import retrofit2.Response
 import java.io.IOException
 

@@ -83,6 +83,8 @@ fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hil
                 Toast.makeText(context, it.title, Toast.LENGTH_LONG).show()
             }
         )
+    }else if (items is BrowseUiState.Loading) {
+        LoadingView()
     }
 }
 
@@ -248,3 +250,13 @@ private fun LandscapePreview() {
 
 @Composable
 fun dpToSp(dp: Dp) = with(LocalDensity.current) { dp.toSp() }
+
+@Composable
+fun LoadingView() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        CircularProgressIndicator(color = Color.Blue)
+    }
+}

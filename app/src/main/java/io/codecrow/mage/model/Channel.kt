@@ -31,9 +31,17 @@ data class Channel(
     @Expose
     var tags: List<String>,
 
-    @SerializedName("createdBy")
+    @SerializedName("createdById")
     @Expose
-    var createdBy: String,
+    var createdById: String,
+
+    @SerializedName("createdByDisplayName")
+    @Expose
+    var createdByDisplayName: String,
+
+    @SerializedName("createdByUsername")
+    @Expose
+    var createdByUsername: String,
 
     @SerializedName("avatar")
     @Expose

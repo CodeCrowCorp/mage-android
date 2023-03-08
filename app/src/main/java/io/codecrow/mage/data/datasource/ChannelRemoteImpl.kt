@@ -11,9 +11,9 @@ class ChannelRemoteImpl @Inject constructor(
     private val api: ChannelApi
 ): ChannelRemote {
 
-    override suspend fun getChannels(): Either<DataException, List<Channel>> {
+    override suspend fun getChannels(searchQuery: String, skip: Int, limit: Int): Either<DataException, List<Channel>> {
         return handle({
-            api.getChannels()
+            api.getChannels(searchQuery, skip, limit)
         }) {
             Either.Right(it ?: emptyList())
         }

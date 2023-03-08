@@ -6,5 +6,5 @@ import io.codecrow.mage.model.Channel
 
 interface ChannelRemote {
 
-    suspend fun getChannels(): Either<DataException, List<Channel>>
+    suspend fun getChannels(searchQuery: String, skip: Int, limit: Int): Either<DataException, List<Channel>>
 }

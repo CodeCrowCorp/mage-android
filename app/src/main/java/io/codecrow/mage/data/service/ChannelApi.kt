@@ -25,7 +25,7 @@ interface ChannelApi {
     suspend fun getMyChannels(@Query("searchQuery") searchQuery: String, @Query("techStack") techStack: String, @Query("skip") skip: String, @Query("limit") limit: String): List<Channel>
 
     @GET("channels")
-    suspend fun getChannels(): Response<List<Channel>>
+    suspend fun getChannels(@Query("searchQuery") searchQuery: String, @Query("skip") skip: Int, @Query("limit") limit: Int): Response<List<Channel>>
 
     @GET("channels/user")
     suspend fun getChannelsByUserId(@Query("searchQuery") searchQuery: String, @Query("skip") skip: String, @Query("limit") limit: String): List<Channel>

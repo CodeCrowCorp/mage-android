@@ -36,7 +36,7 @@ private val channelRemote: ChannelRemote
 
 
     init {
-        getChannels()
+        getChannels("", 0, 100)
     }
     fun enterChannel(_id: String) {
         viewModelScope.launch {
@@ -44,9 +44,9 @@ private val channelRemote: ChannelRemote
         }
     }
 
-    private fun getChannels() {
+    private fun getChannels(searchQuery: String, skip: Int, limit: Int) {
         viewModelScope.launch {
-            channelRemote.getChannels().either({
+            channelRemote.getChannels(searchQuery, skip, limit).either({
                 _uiState.value = BrowseUiState.Error(it)
             }, {
                 Log.d("HERE", it.toString())

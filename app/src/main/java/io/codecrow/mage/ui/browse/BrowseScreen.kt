@@ -16,15 +16,18 @@
 
 package io.codecrow.mage.ui.browse
 
-import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,20 +42,21 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.repeatOnLifecycle
-import io.codecrow.mage.ui.theme.MyApplicationTheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
-import androidx.lifecycle.Lifecycle
+import androidx.compose.ui.unit.sp
 import io.codecrow.mage.model.Channel
-import kotlinx.coroutines.flow.collect
+import io.codecrow.mage.ui.theme.*
+import kotlinx.coroutines.selects.select
+
 
 @Composable
 fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hiltViewModel()) {
@@ -82,6 +86,7 @@ fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hil
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun BrowseScreen(
     items: List<Channel>,
@@ -89,74 +94,127 @@ internal fun BrowseScreen(
     modifier: Modifier = Modifier,
     onClick: (Channel) -> Unit = {}
 ) {
-    Column(modifier) {
-        var nameBrowse by remember { mutableStateOf("Compose") }
-//        Row(
-//            modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
-//            horizontalArrangement = Arrangement.spacedBy(16.dp)
-//        ) {
-//            TextField(
-//                value = nameBrowse,
-//                onValueChange = { nameBrowse = it }
-//            )
-//
-//            Button(modifier = Modifier.width(96.dp), onClick = { enterChannel(nameBrowse) }) {
-//                Text("Save")
-//            }
-//        }
-        LazyColumn(modifier = Modifier
-            .fillMaxWidth()
-            .background(color = Color(0xFFf5f5f5))) {
-            itemsIndexed(items) {i: Int, it: Channel ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(126.dp)
-                        .padding(horizontal = 20.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(color = Color(0xFFf5f5f5))
-                        .clickable { onClick(it) }
-                ) {
-
-                    Column {
-                        Text(
-                            text = it.title,
-                            textAlign = TextAlign.Start,
-                            color = Color(0xAA000000),
-                            modifier = Modifier.padding(all = 24.dp),
-                            fontSize = dpToSp(dp = 18.dp)
-                        )
-
-                        Text(
-                            text = it.description,
-                            textAlign = TextAlign.Start,
-                            color = Color(0xAA000000),
-                            modifier = Modifier.padding(horizontal = 24.dp),
-                            fontSize = dpToSp(dp = 14.dp)
-                        )
-
-                        Divider(
-                            color = Color(0xAA000000),
-                            modifier = modifier.height(1.dp)
-                        )
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = { CenterAlignedTopAppBar(title = {Text("Live Channels")}, scrollBehavior = scrollBehavior) },
+        content = {
+//            var nameBrowse by remember { mutableStateOf("Compose") }
+            LazyColumn(modifier = Modifier
+                .fillMaxWidth()
+                .padding(it)) {
+                items(items) { it: Channel ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(400.dp) //TODO: set min height
+                            .padding(10.dp)
+                            .clip(RoundedCornerShape(4.dp))
+                            .clickable { onClick(it) }
+                    ) {
+                        Box {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                            ) {
+                                //TODO: add video thumbnail here
+                            }
+                            Column (modifier = Modifier.padding(10.dp)) {
+                                Row(
+                                    modifier = Modifier
+                                        .weight(1F)
+                                        .fillMaxWidth(),
+                                    verticalAlignment = Alignment.Top,
+                                    horizontalArrangement = Arrangement.Start
+                                ) {
+                                    AssistChip(
+                                        label = { Text(text = "LIVE") },
+                                        colors = AssistChipDefaults.assistChipColors(
+                                            containerColor = Color.Red,
+                                            labelColor = Color.White,
+                                        ),
+                                        border = null,
+                                        onClick = {},
+                                    )
+                                    Spacer(modifier = Modifier.width(5.dp))
+                                    AssistChip(
+                                        label = { Text(text = "158") },
+                                        leadingIcon = {
+                                            Icon(
+                                                Icons.Filled.Info,
+                                                contentDescription = "Viewers",
+                                            )
+                                        },
+                                        colors = AssistChipDefaults.assistChipColors(
+                                            containerColor = Color.Black.copy(alpha = 0.4f),
+                                            labelColor = Color.White,
+                                            leadingIconContentColor = Color.White
+                                        ),
+                                        border = null,
+                                        onClick = {},
+                                    )
+                                }
+                                Row(
+                                    modifier = Modifier
+                                        .weight(1F)
+                                        .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.PlayArrow,
+                                        contentDescription = "Play button"
+                                    )
+                                }
+                                Row(
+                                    modifier = Modifier
+                                        .weight(1F)
+                                        .fillMaxWidth(),
+                                    verticalAlignment = Alignment.Bottom
+                                ) {
+                                    Column {
+                                        //TODO: add image. set src from it.avatar
+                                        //TODO: add it.createdByUsername
+                                        Text(
+                                            text = it.title,
+                                            textAlign = TextAlign.Start,
+                                            color = Color.Black,
+                                            fontSize = dpToSp(dp = 18.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
-
-
                 }
             }
-        }
-        items.forEach {
-            Text("Channel Title: ${it.title}")
-        }
-    }
+    })
 }
 
 // Previews
 
 @Preview(showBackground = true)
 @Composable
-private fun DefaultPreview() {
-    var channels = listOf(Channel("","","","",false,listOf(""),listOf(""),"","",true, "channel"))
+private fun PortraitPreview() {
+    var channels =
+        listOf(
+            Channel(
+                "",
+                "title",
+                "des",
+                "",
+                false,
+                listOf(""),
+                listOf(""),
+                "",
+                "",
+                "",
+                "",
+                true,
+                "channel"
+            )
+        )
     MyApplicationTheme {
         BrowseScreen(channels, enterChannel = {})
     }
@@ -164,8 +222,25 @@ private fun DefaultPreview() {
 
 @Preview(showBackground = true, widthDp = 480)
 @Composable
-private fun PortraitPreview() {
-    var channels = listOf(Channel("","","","",false,listOf(""),listOf(""),"","",true, "channel"))
+private fun LandscapePreview() {
+    var channels =
+        listOf(
+            Channel(
+                "",
+                "title",
+                "des",
+                "",
+                false,
+                listOf(""),
+                listOf(""),
+                "",
+                "",
+                "",
+                "",
+                true,
+                "channel"
+            )
+        )
     MyApplicationTheme {
         BrowseScreen(channels, enterChannel = {})
     }

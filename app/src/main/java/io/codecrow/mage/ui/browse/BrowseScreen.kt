@@ -17,24 +17,19 @@
 package io.codecrow.mage.ui.browse
 
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,18 +39,22 @@ import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import io.codecrow.mage.model.Channel
 import io.codecrow.mage.ui.theme.*
-import kotlinx.coroutines.selects.select
 
 
 @Composable
@@ -81,6 +80,7 @@ fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hil
             modifier = modifier,
             onClick = {
                 Toast.makeText(context, it.title, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, it.avatar, Toast.LENGTH_LONG).show()
             }
         )
     }else if (items is BrowseUiState.Loading) {
@@ -98,13 +98,31 @@ internal fun BrowseScreen(
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     Scaffold(
+
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { CenterAlignedTopAppBar(title = {Text("Live Channels")}, scrollBehavior = scrollBehavior) },
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "Live Channels",
+                        color = Color.Black,
+                        style = TextStyle(
+                        //fontFamily = FontFamily("Montserrat"),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    lineHeight = 22.sp,
+                    letterSpacing = 0.sp,
+                    textAlign = TextAlign.Left))},
+                scrollBehavior = scrollBehavior
+            )
+        },
         content = {
 //            var nameBrowse by remember { mutableStateOf("Compose") }
-            LazyColumn(modifier = Modifier
-                .fillMaxWidth()
-                .padding(it)) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(it)
+            ) {
                 items(items) { it: Channel ->
                     Column(
                         modifier = Modifier
@@ -114,76 +132,153 @@ internal fun BrowseScreen(
                             .clip(RoundedCornerShape(4.dp))
                             .clickable { onClick(it) }
                     ) {
-                        Box {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight()
-                            ) {
-                                //TODO: add video thumbnail here
-                            }
-                            Column (modifier = Modifier.padding(10.dp)) {
-                                Row(
+                        Card (elevation = CardDefaults.cardElevation(),
+                        shape = RoundedCornerShape(8.dp)) {
+                            Box {
+                                Column(
                                     modifier = Modifier
-                                        .weight(1F)
-                                        .fillMaxWidth(),
-                                    verticalAlignment = Alignment.Top,
-                                    horizontalArrangement = Arrangement.Start
+                                        .fillMaxWidth()
+                                        .fillMaxHeight()
                                 ) {
-                                    AssistChip(
-                                        label = { Text(text = "LIVE") },
-                                        colors = AssistChipDefaults.assistChipColors(
-                                            containerColor = Color.Red,
-                                            labelColor = Color.White,
-                                        ),
-                                        border = null,
-                                        onClick = {},
-                                    )
-                                    Spacer(modifier = Modifier.width(5.dp))
-                                    AssistChip(
-                                        label = { Text(text = "158") },
-                                        leadingIcon = {
-                                            Icon(
-                                                Icons.Filled.Info,
-                                                contentDescription = "Viewers",
-                                            )
-                                        },
-                                        colors = AssistChipDefaults.assistChipColors(
-                                            containerColor = Color.Black.copy(alpha = 0.4f),
-                                            labelColor = Color.White,
-                                            leadingIconContentColor = Color.White
-                                        ),
-                                        border = null,
-                                        onClick = {},
-                                    )
+                                    //TODO: add video thumbnail here
                                 }
-                                Row(
-                                    modifier = Modifier
-                                        .weight(1F)
-                                        .fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.PlayArrow,
-                                        contentDescription = "Play button"
+                                Column(
+                                    modifier = Modifier.padding(
+                                        start = 10.dp,
+                                        end = 10.dp,
+                                        bottom = 10.dp
                                     )
-                                }
-                                Row(
-                                    modifier = Modifier
-                                        .weight(1F)
-                                        .fillMaxWidth(),
-                                    verticalAlignment = Alignment.Bottom
                                 ) {
-                                    Column {
-                                        //TODO: add image. set src from it.avatar
-                                        //TODO: add it.createdByUsername
-                                        Text(
-                                            text = it.title,
-                                            textAlign = TextAlign.Start,
-                                            color = Color.Black,
-                                            fontSize = dpToSp(dp = 18.dp)
+                                    Row(
+                                        modifier = Modifier
+                                            .weight(1F)
+                                            .fillMaxWidth(),
+                                        verticalAlignment = Alignment.Top,
+                                        horizontalArrangement = Arrangement.Start
+                                    ) {
+                                        AssistChip(
+                                            label = { Text(text = "LIVE") },
+                                            colors = AssistChipDefaults.assistChipColors(
+                                                containerColor = Color.Red,
+                                                labelColor = Color.White,
+                                            ),
+                                            border = null,
+                                            onClick = {}
                                         )
+
+                                        Spacer(modifier = Modifier.width(5.dp))
+                                        AssistChip(
+                                            label = { Text(text = "158") },
+                                            leadingIcon = {
+                                                Icon(
+                                                    Icons.Filled.Info,
+                                                    contentDescription = "Viewers",
+                                                )
+                                            },
+                                            colors = AssistChipDefaults.assistChipColors(
+                                                containerColor = Color.Black.copy(alpha = 0.4f),
+                                                labelColor = Color.White,
+                                                leadingIconContentColor = Color.White
+                                            ),
+                                            border = null,
+                                            onClick = {}
+                                        )
+                                    }
+                                    Row(
+                                        modifier = Modifier
+                                            .weight(1F)
+                                            .fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .background(
+                                                    Color.Black.copy(alpha = 0.5f),
+                                                    shape = CircleShape
+                                                )
+                                                .size(48.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.PlayArrow,
+                                                contentDescription = "Play button",
+                                                modifier = Modifier.size(48.dp),
+                                                tint = Color.LightGray
+                                            )
+                                        }
+                                    }
+                                    Row(
+                                        modifier = Modifier
+                                            .weight(1F)
+                                            .fillMaxWidth(),
+                                        verticalAlignment = Alignment.Top,
+                                        horizontalArrangement = Arrangement.Start
+                                    ) {
+                                        Column(modifier = Modifier.fillMaxSize()) {
+                                            Text(
+                                                text = it.title,
+                                                color = Color.Black,
+                                                style = TextStyle(
+                                                    // fontFamily = FontFamily(Font(R.font.montserrat)),
+                                                    fontSize = 22.sp,
+                                                    fontWeight = FontWeight.W600,
+                                                    lineHeight = 22.sp,
+                                                    letterSpacing = 0.sp,
+                                                    textAlign = TextAlign.Start
+                                                )
+                                            )
+
+                                            Row(
+                                                verticalAlignment = Alignment.Bottom,
+                                                modifier = Modifier.fillMaxSize()
+                                            ) {
+                                                AsyncImage(
+                                                    model = ImageRequest.Builder(LocalContext.current)
+                                                        .data(it.avatar)
+                                                        .crossfade(true)
+                                                        .build(),
+//                                                placeholder = painterResource(R.drawable.placeholder),
+                                                    contentDescription = "test",//stringResource(R.string.description),
+                                                    contentScale = ContentScale.Crop,
+                                                    modifier = Modifier
+                                                        .size(64.dp)
+                                                        .clip(RoundedCornerShape(16.dp))
+                                                        .border(
+                                                            2.dp, brush = Brush.linearGradient(
+                                                                colors = listOf(
+                                                                    Color.Magenta,
+                                                                    Color.Blue
+                                                                ),
+                                                                start = Offset(50f, 40f),
+                                                                end = Offset(100f, -10f)
+                                                            ), RoundedCornerShape(16.dp)
+                                                        )
+                                                )
+                                                Spacer(modifier = Modifier.width(5.dp))
+                                                Column(
+                                                    Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(
+                                                            top = 25.dp,
+                                                            bottom = 25.dp
+                                                        )
+                                                ) {
+                                                    Text(
+                                                        text = it.createdByUsername,
+                                                        color = Color.Black,
+                                                        style = TextStyle(
+                                                            //  fontFamily = FontFamily("Montserrat"),
+                                                            fontSize = 17.sp,
+                                                            fontWeight = FontWeight.W500,
+                                                            lineHeight = 22.sp,
+                                                            letterSpacing = 0.sp,
+                                                            textAlign = TextAlign.Left
+                                                        )
+                                                    )
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -191,7 +286,7 @@ internal fun BrowseScreen(
                     }
                 }
             }
-    })
+        })
 }
 
 // Previews
@@ -203,17 +298,15 @@ private fun PortraitPreview() {
         listOf(
             Channel(
                 "",
-                "title",
+                "VideoTitle",
                 "des",
                 "",
-                false,
                 listOf(""),
                 listOf(""),
                 "",
+                "User",
+                "@DisplayName",
                 "",
-                "",
-                "",
-                true,
                 "channel"
             )
         )
@@ -229,17 +322,15 @@ private fun LandscapePreview() {
         listOf(
             Channel(
                 "",
-                "title",
+                "VideoTitle",
                 "des",
                 "",
-                false,
                 listOf(""),
                 listOf(""),
                 "",
+                "User",
+                "@DisplayName",
                 "",
-                "",
-                "",
-                true,
                 "channel"
             )
         )

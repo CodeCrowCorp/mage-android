@@ -19,10 +19,6 @@ data class Channel(
     @Expose
     var thumbnail: String,
 
-    @SerializedName("isPrivate")
-    @Expose
-    var isPrivate: Boolean,
-
     @SerializedName("category")
     @Expose
     var category: List<String>,
@@ -31,9 +27,9 @@ data class Channel(
     @Expose
     var tags: List<String>,
 
-    @SerializedName("createdById")
+    @SerializedName("user")
     @Expose
-    var createdById: String,
+    var user: String,
 
     @SerializedName("createdByDisplayName")
     @Expose
@@ -46,10 +42,6 @@ data class Channel(
     @SerializedName("avatar")
     @Expose
     var avatar: String,
-
-    @SerializedName("isHostActive")
-    @Expose
-    var isHostActive: Boolean,
 
     @SerializedName("channelType")
     @Expose

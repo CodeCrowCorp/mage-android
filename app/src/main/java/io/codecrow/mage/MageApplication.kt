@@ -18,15 +18,12 @@ package io.codecrow.mage
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
-import io.codecrow.mage.data.AppContainer
-import io.codecrow.mage.data.AppContainerImpl
+
 
 @HiltAndroidApp
 class MageApplication : Application() {
-    lateinit var container: AppContainer
 
     override fun onCreate() {
         super.onCreate()
-        container = AppContainerImpl(this)
     }
 }

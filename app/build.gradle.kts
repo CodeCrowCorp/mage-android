@@ -128,4 +128,7 @@ dependencies {
     implementation(libs.retrofit)
     // Retrofit Gson converter
     implementation(libs.converter.gson)
+
+    //CoilImage
+    implementation(libs.coilImage)
 }

@@ -1,0 +1,14 @@
+pull_request_rules:
+  - name: Automatic merge ⬇️ on approval ✔
+    conditions:
+      - "#approved-reviews-by>=1"
+      - author=gagan-suie
+    actions:
+      merge:
+        method: merge
+  - name: Automatic merge ⬇️ if Dependabot 🤖
+    conditions:
+      - author=dependabot[bot]
+    actions:
+      merge:
+        method: merge

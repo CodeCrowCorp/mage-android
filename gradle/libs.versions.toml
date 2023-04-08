@@ -18,7 +18,7 @@ junit = "4.13.2"
 kotlin = "1.8.20"
 ksp = "1.8.20-1.0.10"
 retrofit = "2.9.0"
-coilImage= "2.2.2"
+coilImage= "2.3.0"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }

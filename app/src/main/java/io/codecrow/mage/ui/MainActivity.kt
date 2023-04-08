@@ -24,7 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
-import io.codecrow.mage.R
 import io.codecrow.mage.ui.theme.MyApplicationTheme
 
 @AndroidEntryPoint

@@ -34,36 +34,32 @@ import androidx.core.view.ViewCompat
 
 private val LightColorScheme = lightColorScheme(
     primary = LightPrimary,
-    //   primaryContent = LightPrimaryContent,
-    secondary = LightSecondary,
-    //   secondaryVariant = LightSecondary,
     onPrimary = LightPrimaryContent,
+    secondary = LightSecondary,
     onSecondary = LightSecondaryContent,
     background = LightBase100,
     onBackground = LightBaseContent,
     surface = LightBase200,
     onSurface = LightBaseContent,
-    //   error = MaterialTheme.colors.error,
-    //   onError = MaterialTheme.colors.onError,
-    //  surfaceColor = LightBase300,
-    //  scaffoldBackground = LightNeutral,
+    error = Red,
+    onError = Black,
+    surfaceTint = LightBase300,
+    outline = LightNeutral,
 )
 
 private val DarkColorScheme = darkColorScheme(
     primary = DarkPrimary,
-    // primaryVariant = DarkPrimary,
-    secondary = DarkSecondary,
-    //   secondaryVariant = DarkSecondary,
     onPrimary = DarkPrimaryContent,
+    secondary = DarkSecondary,
     onSecondary = DarkSecondaryContent,
     background = DarkBase100,
     onBackground = DarkBaseContent,
     surface = DarkBase200,
     onSurface = DarkBaseContent,
-    //  error = MaterialTheme.colors.error,
-    //  onError = MaterialTheme.colors.onError,
-    //   surfaceColor = DarkBase300,
-    //  scaffoldBackground = DarkNeutral,
+    error = Red,
+    onError = Black,
+    surfaceTint = DarkBase300,
+    outline = DarkNeutral,
 )
 
 

@@ -16,6 +16,10 @@
   -->
 
 <resources>
+    <style name="Theme.MageApplication" parent="android:Theme.Material.Light.NoActionBar" >
 
-    <style name="Theme.MageApplication" parent="android:Theme.Material.Light.NoActionBar" />
+
+    </style>
+
 </resources>
+

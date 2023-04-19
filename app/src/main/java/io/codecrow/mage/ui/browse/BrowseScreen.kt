@@ -24,7 +24,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -39,21 +38,20 @@ import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import io.codecrow.mage.R
 import io.codecrow.mage.model.Channel
+import io.codecrow.mage.ui.components.TitleTextStyle
+import io.codecrow.mage.ui.components.UserProfileImage
 import io.codecrow.mage.ui.theme.*
 
 
@@ -83,7 +81,7 @@ fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hil
                 Toast.makeText(context, it.avatar, Toast.LENGTH_LONG).show()
             }
         )
-    }else if (items is BrowseUiState.Loading) {
+    } else if (items is BrowseUiState.Loading) {
         LoadingView()
     }
 }
@@ -103,16 +101,8 @@ internal fun BrowseScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(
-                        text = "Live Channels",
-                        color = Color.Black,
-                        style = TextStyle(
-                        //fontFamily = FontFamily("Montserrat"),
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    lineHeight = 22.sp,
-                    letterSpacing = 0.sp,
-                    textAlign = TextAlign.Left))},
+                    TitleTextStyle()
+                },
                 scrollBehavior = scrollBehavior
             )
         },
@@ -132,8 +122,10 @@ internal fun BrowseScreen(
                             .clip(RoundedCornerShape(4.dp))
                             .clickable { onClick(it) }
                     ) {
-                        Card (elevation = CardDefaults.cardElevation(),
-                        shape = RoundedCornerShape(8.dp)) {
+                        Card(
+                            elevation = CardDefaults.cardElevation(),
+                            shape = RoundedCornerShape(8.dp)
+                        ) {
                             Box {
                                 Column(
                                     modifier = Modifier
@@ -170,9 +162,9 @@ internal fun BrowseScreen(
                                         AssistChip(
                                             label = { Text(text = "158") },
                                             leadingIcon = {
-                                                Icon(
-                                                    Icons.Filled.Info,
-                                                    contentDescription = "Viewers",
+                                                Image(
+                                                    painter = painterResource(id = R.drawable.ic_viewers_24),
+                                                    contentDescription = "Viewer"
                                                 )
                                             },
                                             colors = AssistChipDefaults.assistChipColors(
@@ -218,7 +210,7 @@ internal fun BrowseScreen(
                                         Column(modifier = Modifier.fillMaxSize()) {
                                             Text(
                                                 text = it.title,
-                                                color = Color.Black,
+                                                color = MaterialTheme.colorScheme.onPrimary,
                                                 style = TextStyle(
                                                     // fontFamily = FontFamily(Font(R.font.montserrat)),
                                                     fontSize = 22.sp,
@@ -233,28 +225,7 @@ internal fun BrowseScreen(
                                                 verticalAlignment = Alignment.Bottom,
                                                 modifier = Modifier.fillMaxSize()
                                             ) {
-                                                AsyncImage(
-                                                    model = ImageRequest.Builder(LocalContext.current)
-                                                        .data(it.avatar)
-                                                        .crossfade(true)
-                                                        .build(),
-//                                                placeholder = painterResource(R.drawable.placeholder),
-                                                    contentDescription = "test",//stringResource(R.string.description),
-                                                    contentScale = ContentScale.Crop,
-                                                    modifier = Modifier
-                                                        .size(64.dp)
-                                                        .clip(RoundedCornerShape(16.dp))
-                                                        .border(
-                                                            2.dp, brush = Brush.linearGradient(
-                                                                colors = listOf(
-                                                                    Color.Magenta,
-                                                                    Color.Blue
-                                                                ),
-                                                                start = Offset(50f, 40f),
-                                                                end = Offset(100f, -10f)
-                                                            ), RoundedCornerShape(16.dp)
-                                                        )
-                                                )
+                                                UserProfileImage(it.avatar)
                                                 Spacer(modifier = Modifier.width(5.dp))
                                                 Column(
                                                     Modifier
@@ -266,7 +237,7 @@ internal fun BrowseScreen(
                                                 ) {
                                                     Text(
                                                         text = it.createdByUsername,
-                                                        color = Color.Black,
+                                                        color = MaterialTheme.colorScheme.onPrimary,
                                                         style = TextStyle(
                                                             //  fontFamily = FontFamily("Montserrat"),
                                                             fontSize = 17.sp,

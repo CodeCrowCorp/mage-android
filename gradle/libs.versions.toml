@@ -16,7 +16,7 @@ coroutines = "1.6.4"
 hilt = "2.45"
 junit = "4.13.2"
 kotlin = "1.8.0"
-ksp = "1.8.0-1.0.9"
+ksp = "1.8.20-1.0.11"
 retrofit = "2.9.0"
 coilImage= "2.3.0"
 

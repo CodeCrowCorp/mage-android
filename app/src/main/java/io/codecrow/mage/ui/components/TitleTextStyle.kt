@@ -1,5 +1,6 @@
 package io.codecrow.mage.ui.components
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,7 +13,7 @@ import androidx.compose.ui.unit.sp
 fun TitleTextStyle(){
     Text(
         text = "Live Channels",
-        color = Color.Black,
+        color = MaterialTheme.colorScheme.onBackground,
         style = androidx.compose.ui.text.TextStyle(
             //fontFamily = FontFamily("Montserrat"),
             fontSize = 20.sp,

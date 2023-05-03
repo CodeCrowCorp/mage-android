@@ -29,17 +29,17 @@ fun UserProfileImage(avatar: String) {
         modifier = Modifier
             .size(64.dp)
             .clip(RoundedCornerShape(16.dp))
-            .border(
-                2.dp,
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        Color.Magenta,
-                        Color.Blue
-                    ),
-                    start = Offset(50f, 40f),
-                    end = Offset(100f, -10f)
-                ),
-                shapes.medium //RoundedCornerShape(16.dp)
-            )
+//            .border(
+//                2.dp,
+//                brush = Brush.linearGradient(
+//                    colors = listOf(
+//                        Color.Magenta,
+//                        Color.Blue
+//                    ),
+//                    start = Offset(50f, 40f),
+//                    end = Offset(100f, -10f)
+//                ),
+//                shapes.medium //RoundedCornerShape(16.dp)
+//            )
     )
 }

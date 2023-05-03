@@ -32,9 +32,9 @@ val Red = Color(0xFFE4243E)
 
 // Light theme colors
 val LightPrimary = Color(0xFF570df8)
-val LightPrimaryContent = Color(0xFFFFFFFF)
+val LightPrimaryContent = Color(0xFFA6ADBB) // Black
 val LightSecondary = Color(0xFFF000B8)
-val LightSecondaryContent = Color(0xFFFFFFFF)
+val LightSecondaryContent = Color(0xFFA6ADBB)
 val LightAccent = Color(0xFF37CDbe)
 val LightAccentContent = Color(0xFF163835)
 val LightNeutral = Color(0xFF3D4451)

@@ -131,4 +131,7 @@ dependencies {
 
     //CoilImage
     implementation(libs.coilImage)
+
+    //SplashScreen
+    implementation(libs.splashscreen)
 }

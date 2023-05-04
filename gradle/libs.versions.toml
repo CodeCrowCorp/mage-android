@@ -18,7 +18,8 @@ junit = "4.13.2"
 kotlin = "1.8.20"
 ksp = "1.8.20-1.0.10"
 retrofit = "2.9.0"
-coilImage= "2.3.0"
+coilImage = "2.3.0"
+splashscreen = "1.0.0-beta02"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
@@ -50,6 +51,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 coilImage = {module = "io.coil-kt:coil-compose", version.ref = "coilImage"}
+splashscreen = {module = "androidx.core:core-splashscreen", version.ref = "splashscreen"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

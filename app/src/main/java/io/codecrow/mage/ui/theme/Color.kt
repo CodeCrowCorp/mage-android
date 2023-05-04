@@ -59,3 +59,4 @@ val DarkBase200 = Color(0xFF242933)
 val DarkBase300 = Color(0xFF20252E)
 val DarkBaseContent = Color(0xFFA6ADBB)
 
+val LogoPurple = Color(0xFF661AE6)

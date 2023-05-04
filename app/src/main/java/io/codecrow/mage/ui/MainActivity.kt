@@ -31,7 +31,6 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import io.codecrow.mage.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -43,7 +42,6 @@ class MainActivity : ComponentActivity() {
         var isSplashScreen = mutableStateOf(true)
 
         lifecycleScope.launch(Dispatchers.Default) {
-            delay(1000)
             isSplashScreen.value = false
         }
 

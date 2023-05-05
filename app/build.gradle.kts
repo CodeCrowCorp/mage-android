@@ -57,8 +57,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_1_8.toString()
+        }
     }
 
     buildFeatures {
@@ -131,4 +133,10 @@ dependencies {
 
     //CoilImage
     implementation(libs.coilImage)
+
+    //SplashScreen
+    implementation(libs.splashscreen)
+
+    //Accompanist
+    implementation(libs.accompanist)
 }

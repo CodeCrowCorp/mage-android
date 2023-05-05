@@ -34,7 +34,8 @@ fun ChannelItem(channel: Channel) {
     ) {
         Card(
             elevation = CardDefaults.cardElevation(),
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(8.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         ) {
             Box {
                 Column(

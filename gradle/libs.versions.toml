@@ -1,5 +1,5 @@
 [versions]
-androidGradlePlugin = "7.4.2"
+androidGradlePlugin = "8.0.1"
 androidxCore = "1.9.0"
 androidxLifecycle = "2.5.1"
 androidxActivity = "1.6.1"
@@ -20,6 +20,7 @@ ksp = "1.8.20-1.0.10"
 retrofit = "2.9.0"
 coilImage = "2.3.0"
 splashscreen = "1.0.0-beta02"
+accompanist = "0.31.1-alpha"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
@@ -52,6 +53,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 coilImage = {module = "io.coil-kt:coil-compose", version.ref = "coilImage"}
 splashscreen = {module = "androidx.core:core-splashscreen", version.ref = "splashscreen"}
+accompanist = {module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

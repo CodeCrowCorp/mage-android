@@ -28,7 +28,8 @@ import androidx.compose.ui.graphics.Color
 val Black = Color(0xFF070707)
 val White = Color(0xFFFAFAFA)
 val Grey = Color(0xFF65616D)
-val Red = Color(0xFFE4243E)
+val Error = Color(0xFFF87272)
+val onError = Color(0xFF470001)
 
 // Light theme colors
 val LightPrimary = Color(0xFF570df8)
@@ -46,7 +47,7 @@ val LightBaseContent = Color(0xFF1F2937)
 
 // Dark theme colors
 val DarkPrimary = Color(0xFF661AE6)
-val DarkPrimaryContent = Color(0xFFFFFFFF)
+val DarkPrimaryContent = Color(0xFFA6ADBB)
 val DarkSecondary = Color(0xFFD926AA)
 val DarkSecondaryContent = Color(0xFFFFFFFF)
 val DarkAccent = Color(0xFF1FB2A5)

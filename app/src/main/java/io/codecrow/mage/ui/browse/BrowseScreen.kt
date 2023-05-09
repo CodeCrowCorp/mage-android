@@ -16,7 +16,6 @@
 
 package io.codecrow.mage.ui.browse
 
-import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -30,7 +29,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -40,13 +38,14 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.navigation.NavController
 import io.codecrow.mage.model.Channel
 import io.codecrow.mage.ui.components.TitleTextStyle
 import io.codecrow.mage.ui.theme.*
 
 
 @Composable
-fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hiltViewModel()) {
+fun BrowseScreen(modifier: Modifier = Modifier, navController: NavController, viewModel: BrowseViewModel = hiltViewModel()) {
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val context = LocalContext.current
     val items by produceState<BrowseUiState>(
@@ -64,11 +63,9 @@ fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hil
     if (items is BrowseUiState.Success) {
         BrowseScreen(
             items = (items as BrowseUiState.Success).data,
-            enterChannel = viewModel::enterChannel,
             modifier = modifier,
             onClick = {
-                Toast.makeText(context, it.title, Toast.LENGTH_LONG).show()
-                Toast.makeText(context, it.avatar, Toast.LENGTH_LONG).show()
+                navController.navigate("channel/$it")
             }
         )
     } else if (items is BrowseUiState.Loading) {
@@ -80,9 +77,8 @@ fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hil
 @Composable
 internal fun BrowseScreen(
     items: List<Channel>,
-    enterChannel: (_id: String) -> Unit,
     modifier: Modifier = Modifier,
-    onClick: (Channel) -> Unit = {}
+    onClick: (String) -> Unit = {}
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val state = rememberLazyListState()
@@ -112,7 +108,9 @@ internal fun BrowseScreen(
 
             ) {
                 items(items) { it: Channel ->
-                    ChannelItem(it)
+                    ChannelItem(it) {
+                        onClick(it._id)
+                    }
                 }
             }
         })
@@ -140,7 +138,7 @@ private fun PortraitPreview() {
             )
         )
     MyApplicationTheme {
-        BrowseScreen(channels, enterChannel = {})
+        BrowseScreen(channels)
     }
 }
 
@@ -164,7 +162,7 @@ private fun LandscapePreview() {
             )
         )
     MyApplicationTheme {
-        BrowseScreen(channels, enterChannel = {})
+        BrowseScreen(channels)
     }
 }
 

@@ -1,7 +1,6 @@
 package io.codecrow.mage.ui.browse
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,7 +22,7 @@ import io.codecrow.mage.ui.components.ChannelViewersItem
 import io.codecrow.mage.ui.components.UserProfileImage
 
 @Composable
-fun ChannelItem(channel: Channel) {
+fun ChannelItem(channel: Channel, onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()

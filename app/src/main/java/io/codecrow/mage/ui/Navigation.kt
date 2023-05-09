@@ -30,7 +30,8 @@ fun MainNavigation() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "main") {
-        composable("main") { BrowseScreen(modifier = Modifier.padding(16.dp)) }
+        composable("main") { BrowseScreen(navController = navController, modifier = Modifier.padding(16.dp)) }
+        composable("channel") { ChannelScreen(navController = navController, modifier = Modifier.padding(16.dp)) }
         // TODO: Add more destinations
     }
 }

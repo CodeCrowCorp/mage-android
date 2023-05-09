@@ -38,11 +38,6 @@ private val channelRemote: ChannelRemote
     init {
         getChannels("", 0, 100)
     }
-    fun enterChannel(_id: String) {
-        viewModelScope.launch {
-//            channelRepository.add(name)
-        }
-    }
 
     private fun getChannels(searchQuery: String, skip: Int, limit: Int) {
         viewModelScope.launch {

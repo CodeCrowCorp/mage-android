@@ -24,6 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.codecrow.mage.ui.browse.BrowseScreen
+import io.codecrow.mage.ui.channel.ChannelScreen
 
 @Composable
 fun MainNavigation() {

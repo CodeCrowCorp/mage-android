@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
@@ -29,6 +30,7 @@ import io.codecrow.mage.model.Channel
 import io.codecrow.mage.ui.browse.ChannelItem
 import io.codecrow.mage.ui.browse.LoadingView
 import io.codecrow.mage.ui.theme.MyApplicationTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun ChannelScreen(modifier: Modifier = Modifier, navController: NavController, viewModel: ChannelViewModel = hiltViewModel()) {
@@ -46,12 +48,16 @@ fun ChannelScreen(modifier: Modifier = Modifier, navController: NavController, v
 
         }
     }
+    val coroutineScope = rememberCoroutineScope()
+
     if (items is ChannelUiState.Success) {
         ChannelScreen(
             items = (items as ChannelUiState.Success).data,
             modifier = modifier,
-            onClick = {
-                navController.navigate("channel/$it")
+            onClick = { channelId ->
+                    coroutineScope.launch {
+                        navController.navigate("channel/$channelId")
+                    }
             }
         )
     } else if (items is ChannelUiState.Loading) {
@@ -83,11 +89,10 @@ internal fun ChannelScreen(
                 flingBehavior = flingBehavior,
 
                 ) {
-                items(items) { it: Channel ->
-                    ChannelItem(it) {
-                        onClick(it._id)
-                    }
-                }
+                items(items) { channel ->
+                    ChannelItem(channel) {
+                        onClick(channel._id)
+                    }	                    }
             }
         })
 }

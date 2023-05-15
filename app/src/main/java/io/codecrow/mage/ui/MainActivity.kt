@@ -70,9 +70,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-//
-//composable("channel/{channelId}") { backStackEntry ->
-//    val channelId = backStackEntry.arguments?.getString("channelId")
-//    ChannelScreen(channelId)
-//}

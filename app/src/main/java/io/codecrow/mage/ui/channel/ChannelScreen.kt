@@ -48,16 +48,17 @@ fun ChannelScreen(modifier: Modifier = Modifier, navController: NavController, v
 
         }
     }
-    val coroutineScope = rememberCoroutineScope()
+//    val coroutineScope = rememberCoroutineScope()
 
     if (items is ChannelUiState.Success) {
         ChannelScreen(
             items = (items as ChannelUiState.Success).data,
             modifier = modifier,
-            onClick = { channelId ->
-                    coroutineScope.launch {
-                        navController.navigate("channel/$channelId")
-                    }
+            onClick = {channelId -> navController.navigate("channel/$channelId")
+
+//            onClick = { channelId ->
+//                    coroutineScope.launch {
+//                        navController.navigate("channel/$channelId")
             }
         )
     } else if (items is ChannelUiState.Loading) {
@@ -91,8 +92,10 @@ internal fun ChannelScreen(
                 ) {
                 items(items) { channel ->
                     ChannelItem(channel) {
-                        onClick(channel._id)
-                    }	                    }
+                       // onClick(channel._id)
+                        onClick("ChannelScreen/${channel._id}")
+                    }
+                }
             }
         })
 }

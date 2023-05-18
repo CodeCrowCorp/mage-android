@@ -33,10 +33,7 @@ fun MainNavigation() {
     NavHost(navController = navController, startDestination = "main") {
         composable("main") { BrowseScreen(navController = navController, modifier = Modifier.padding(16.dp)) }
         composable("channel") { ChannelScreen(navController = navController, modifier = Modifier.padding(16.dp)) }
-//        composable("channel/{channelId}") { backStackEntry ->
-//            val channelId = backStackEntry.arguments?.getString("channelId")
-//            ChannelScreen(channelId = channelId)
-//        }
+
         // TODO: Add more destinations
     }
 }

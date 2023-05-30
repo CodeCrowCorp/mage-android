@@ -40,6 +40,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavController
 import io.codecrow.mage.model.Channel
+import io.codecrow.mage.ui.components.Screen
 import io.codecrow.mage.ui.components.TitleTextStyle
 import io.codecrow.mage.ui.theme.*
 
@@ -65,7 +66,9 @@ fun BrowseScreen(modifier: Modifier = Modifier, navController: NavController, vi
             items = (items as BrowseUiState.Success).data,
             modifier = modifier,
             onClick = {
-                navController.navigate("channel/$it")
+               // navController.navigate("channel/$it")
+                navController.navigate(Screen.ChannelScreen.route)
+
             }
         )
     } else if (items is BrowseUiState.Loading) {

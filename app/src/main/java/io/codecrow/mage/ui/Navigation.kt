@@ -25,14 +25,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.codecrow.mage.ui.browse.BrowseScreen
 import io.codecrow.mage.ui.channel.ChannelScreen
+import io.codecrow.mage.ui.components.Screen
 
 @Composable
 fun MainNavigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "main") {
-        composable("main") { BrowseScreen(navController = navController, modifier = Modifier.padding(16.dp)) }
-        composable("channel") { ChannelScreen(navController = navController, modifier = Modifier.padding(16.dp)) }
+    NavHost(navController = navController, startDestination = Screen.BrowseScreen.route) {
+        composable(Screen.BrowseScreen.route) { BrowseScreen(navController = navController, modifier = Modifier.padding(16.dp)) }
+        composable(Screen.ChannelScreen.route) { ChannelScreen(navController = navController, modifier = Modifier.padding(16.dp)) }
 
         // TODO: Add more destinations
     }

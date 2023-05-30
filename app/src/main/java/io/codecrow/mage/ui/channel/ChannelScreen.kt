@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import io.codecrow.mage.model.Channel
 import io.codecrow.mage.ui.browse.ChannelItem
 import io.codecrow.mage.ui.browse.LoadingView
+import io.codecrow.mage.ui.components.Screen
 import io.codecrow.mage.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.launch
 
@@ -54,7 +55,7 @@ fun ChannelScreen(modifier: Modifier = Modifier, navController: NavController, v
         ChannelScreen(
             items = (items as ChannelUiState.Success).data,
             modifier = modifier,
-            onClick = {channelId -> navController.navigate("channel/$channelId")
+            onClick = {navController.navigate(Screen.ChannelScreen.route)
 
 //            onClick = { channelId ->
 //                    coroutineScope.launch {

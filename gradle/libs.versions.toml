@@ -13,14 +13,14 @@ androidxTest = "1.5.0" # https://github.com/android/android-test/issues/1412
 androidxTestExt = "1.1.5"
 androidxTestRunner = "1.5.2"
 coroutines = "1.7.0"
-hilt = "2.46"
+hilt = "2.46.1"
 junit = "4.13.2"
 kotlin = "1.8.20"
 ksp = "1.8.20-1.0.10"
 retrofit = "2.9.0"
-coilImage = "2.3.0"
+coilImage = "2.4.0"
 splashscreen = "1.0.0-beta02"
-accompanist = "0.31.2-alpha"
+accompanist = "0.31.3-beta"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }

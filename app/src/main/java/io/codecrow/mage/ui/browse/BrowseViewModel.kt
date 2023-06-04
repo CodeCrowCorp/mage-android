@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BrowseViewModel @Inject constructor(
-private val channelRemote: ChannelRemote
+    private val channelRemote: ChannelRemote
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<BrowseUiState>(BrowseUiState.Loading)

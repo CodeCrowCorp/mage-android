@@ -18,6 +18,7 @@ package io.codecrow.mage.ui.browse
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
+import androidx.compose.foundation.gestures.snapping.SnapPositionInLayout
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -45,13 +46,15 @@ import io.codecrow.mage.ui.theme.*
 
 
 @Composable
-fun BrowseScreen(modifier: Modifier = Modifier, navController: NavController, viewModel: BrowseViewModel = hiltViewModel()) {
+fun BrowseScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    viewModel: BrowseViewModel = hiltViewModel()
+) {
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val context = LocalContext.current
     val items by produceState<BrowseUiState>(
-        initialValue = BrowseUiState.Loading,
-        key1 = lifecycle,
-        key2 = viewModel
+        initialValue = BrowseUiState.Loading, key1 = lifecycle, key2 = viewModel
     ) {
         lifecycle.repeatOnLifecycle(state = STARTED) {
             viewModel.uiState.collect {
@@ -61,13 +64,9 @@ fun BrowseScreen(modifier: Modifier = Modifier, navController: NavController, vi
         }
     }
     if (items is BrowseUiState.Success) {
-        BrowseScreen(
-            items = (items as BrowseUiState.Success).data,
-            modifier = modifier,
-            onClick = {
-                navController.navigate("channel/$it")
-            }
-        )
+        BrowseScreen(items = (items as BrowseUiState.Success).data, modifier = modifier, onClick = {
+            navController.navigate("channel/$it")
+        })
     } else if (items is BrowseUiState.Loading) {
         LoadingView()
     }
@@ -76,28 +75,25 @@ fun BrowseScreen(modifier: Modifier = Modifier, navController: NavController, vi
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun BrowseScreen(
-    items: List<Channel>,
-    modifier: Modifier = Modifier,
-    onClick: (String) -> Unit = {}
+    items: List<Channel>, modifier: Modifier = Modifier, onClick: (String) -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val state = rememberLazyListState()
-    val snappingLayout = remember(state) { SnapLayoutInfoProvider(state, positionInLayout = {_,_ -> 0f})}
+    val snappingLayout =
+        remember(state) { SnapLayoutInfoProvider(state) { _: Int, _: Int, _: Int -> 0 } }
     val flingBehavior = rememberSnapFlingBehavior(snappingLayout)
 
     Scaffold(
 
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
             CenterAlignedTopAppBar(
-            title = {
+                title = {
                     TitleTextStyle()
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.surface),
                 scrollBehavior = scrollBehavior
             )
-        },
-        content = {
+        }, content = {
 //            var nameBrowse by remember { mutableStateOf("Compose") }
             LazyColumn(
                 modifier = Modifier
@@ -106,11 +102,9 @@ internal fun BrowseScreen(
                 state = state,
                 flingBehavior = flingBehavior,
 
-            ) {
+                ) {
                 items(items) { it: Channel ->
-                    ChannelItem(it) {
-                        onClick(it._id)
-                    }
+                    ChannelItem(it) { channelId -> onClick(channelId) }
                 }
             }
         })
@@ -121,48 +115,46 @@ internal fun BrowseScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PortraitPreview() {
-    var channels =
-        listOf(
-            Channel(
-                "",
-                "VideoTitle",
-                "des",
-                "",
-                listOf(""),
-                listOf(""),
-                "",
-                "User",
-                "DisplayName",
-                "",
-                "channel"
-            )
+    var channels = listOf(
+        Channel(
+            "",
+            "VideoTitle",
+            "des",
+            "",
+            listOf(""),
+            listOf(""),
+            "",
+            "User",
+            "DisplayName",
+            "",
+            "channel"
         )
+    )
     MyApplicationTheme {
-        BrowseScreen(channels)
+        BrowseScreen(channels, onClick = {})
     }
 }
 
 @Preview(showBackground = true, widthDp = 480)
 @Composable
 private fun LandscapePreview() {
-    var channels =
-        listOf(
-            Channel(
-                "",
-                "VideoTitle",
-                "des",
-                "",
-                listOf(""),
-                listOf(""),
-                "",
-                "User",
-                "DisplayName",
-                "",
-                "channel"
-            )
+    var channels = listOf(
+        Channel(
+            "",
+            "VideoTitle",
+            "des",
+            "",
+            listOf(""),
+            listOf(""),
+            "",
+            "User",
+            "DisplayName",
+            "",
+            "channel"
         )
+    )
     MyApplicationTheme {
-        BrowseScreen(channels)
+        BrowseScreen(channels, onClick = {})
     }
 }
 
@@ -174,8 +166,8 @@ fun LoadingView() {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-            repeat(5) {
-                LoadingChannelItem()
-            }
+        repeat(5) {
+            LoadingChannelItem()
+        }
     }
 }

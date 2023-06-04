@@ -1,6 +1,7 @@
 package io.codecrow.mage.ui.browse
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,14 +23,14 @@ import io.codecrow.mage.ui.components.ChannelViewersItem
 import io.codecrow.mage.ui.components.UserProfileImage
 
 @Composable
-fun ChannelItem(channel: Channel, onClick: () -> Unit) {
+fun ChannelItem(channel: Channel, onClick: (channelId: String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .height(400.dp) //TODO: set min height
             .padding(10.dp)
             .clip(RoundedCornerShape(4.dp))
-//            .clickable { onClick(it) }
+            .clickable { onClick(channel._id) }
     ) {
         Card(
             elevation = CardDefaults.cardElevation(),
@@ -120,7 +121,7 @@ fun ChannelItem(channel: Channel, onClick: () -> Unit) {
                                         )
                                 ) {
                                     Text(
-                                        text = "@"+channel.createdByUsername,
+                                        text = "@" + channel.createdByUsername,
                                         color = MaterialTheme.colorScheme.onPrimary,
                                         style = TextStyle(
                                             //  fontFamily = FontFamily("Montserrat"),

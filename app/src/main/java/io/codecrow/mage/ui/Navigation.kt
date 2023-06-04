@@ -20,19 +20,34 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.codecrow.mage.ui.browse.BrowseScreen
 import io.codecrow.mage.ui.channel.ChannelScreen
+import io.codecrow.mage.ui.channel.ChannelViewModel
 
 @Composable
 fun MainNavigation() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "main") {
-        composable("main") { BrowseScreen(navController = navController, modifier = Modifier.padding(16.dp)) }
-        composable("channel") { ChannelScreen(navController = navController, modifier = Modifier.padding(16.dp)) }
-        // TODO: Add more destinations
+        composable("main") {
+            BrowseScreen(
+                navController = navController,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+        composable("channel/{channelId}") { backStackEntry ->
+            val channelId = backStackEntry.arguments?.getString("channelId") ?: ""
+            val viewModel = hiltViewModel<ChannelViewModel>()
+            viewModel.setChannelId(channelId)
+            ChannelScreen(
+                navController = navController,
+                modifier = Modifier.padding(16.dp),
+                viewModel = viewModel
+            )
+        }
     }
 }

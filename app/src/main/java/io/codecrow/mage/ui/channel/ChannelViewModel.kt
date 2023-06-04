@@ -18,10 +18,14 @@ class ChannelViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow<ChannelUiState>(ChannelUiState.Loading)
     val uiState: StateFlow<ChannelUiState> = _uiState
-
+    private val channelId = MutableStateFlow("")
 
     init {
         getChannels("", 0, 100)
+    }
+
+    fun setChannelId(channelId: String) {
+        this.channelId.value = channelId
     }
 
     private fun getChannels(searchQuery: String, skip: Int, limit: Int) {

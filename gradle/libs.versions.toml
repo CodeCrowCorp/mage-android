@@ -20,7 +20,7 @@ ksp = "1.8.22-1.0.11"
 retrofit = "2.9.0"
 coilImage = "2.4.0"
 splashscreen = "1.0.0-beta02"
-accompanist = "0.31.4-beta"
+accompanist = "0.31.5-beta"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }

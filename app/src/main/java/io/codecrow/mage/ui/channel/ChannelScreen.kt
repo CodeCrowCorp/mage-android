@@ -1,6 +1,11 @@
 package io.codecrow.mage.ui.channel
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +25,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import io.codecrow.mage.model.Channel
+import io.codecrow.mage.ui.browse.ChannelItem
 import io.codecrow.mage.ui.browse.LoadingView
 import io.codecrow.mage.ui.theme.MyApplicationTheme
 
@@ -63,18 +69,24 @@ internal fun ChannelScreen(
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit = {}
 ) {
-    Text(
-        text = "Yo",
-        color = Color.Red,
-        style = TextStyle(
-            // fontFamily = FontFamily(Font(R.font.montserrat)),
-            fontSize = 22.sp,
-            fontWeight = FontWeight.W600,
-            lineHeight = 22.sp,
-            letterSpacing = 0.sp,
-            textAlign = TextAlign.Start
-        )
-    )
+        Column(modifier = modifier) {
+            items.forEach { channel ->
+                ChannelDetail(channel = channel, onClick = { onClick(channel._id) })
+            }
+        }
+//
+//    Text(
+//        text = "Yo",
+//        color = Color.Red,
+//        style = TextStyle(
+//            // fontFamily = FontFamily(Font(R.font.montserrat)),
+//            fontSize = 22.sp,
+//            fontWeight = FontWeight.W600,
+//            lineHeight = 22.sp,
+//            letterSpacing = 0.sp,
+//            textAlign = TextAlign.Start
+//        )
+//    )
 }
 
 // Previews

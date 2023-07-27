@@ -110,7 +110,7 @@ fun ChannelItem(channel: Channel, onClick: (channelId: String) -> Unit) {
                                 verticalAlignment = Alignment.Bottom,
                                 modifier = Modifier.fillMaxSize()
                             ) {
-                                UserProfileImage(channel.avatar)
+                                UserProfileImage(channel.userDetails.avatar)
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Column(
                                     Modifier
@@ -121,7 +121,7 @@ fun ChannelItem(channel: Channel, onClick: (channelId: String) -> Unit) {
                                         )
                                 ) {
                                     Text(
-                                        text = "@" + channel.createdByUsername,
+                                        text = "@" + channel.userDetails.username,
                                         color = MaterialTheme.colorScheme.onPrimary,
                                         style = TextStyle(
                                             //  fontFamily = FontFamily("Montserrat"),

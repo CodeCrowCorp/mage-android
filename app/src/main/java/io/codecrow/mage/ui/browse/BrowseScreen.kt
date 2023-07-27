@@ -41,6 +41,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavController
 import io.codecrow.mage.model.Channel
+import io.codecrow.mage.model.UserDetails
 import io.codecrow.mage.ui.components.TitleTextStyle
 import io.codecrow.mage.ui.theme.*
 
@@ -115,7 +116,7 @@ internal fun BrowseScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PortraitPreview() {
-    var channels = listOf(
+    val channels = listOf(
         Channel(
             "",
             "VideoTitle",
@@ -124,10 +125,8 @@ private fun PortraitPreview() {
             listOf(""),
             listOf(""),
             "",
-            "User",
-            "DisplayName",
-            "",
-            "channel"
+            "channel",
+            UserDetails("", "", "")
         )
     )
     MyApplicationTheme {
@@ -138,7 +137,7 @@ private fun PortraitPreview() {
 @Preview(showBackground = true, widthDp = 480)
 @Composable
 private fun LandscapePreview() {
-    var channels = listOf(
+    val channels = listOf(
         Channel(
             "",
             "VideoTitle",
@@ -147,10 +146,8 @@ private fun LandscapePreview() {
             listOf(""),
             listOf(""),
             "",
-            "User",
-            "DisplayName",
-            "",
-            "channel"
+            "channel",
+            UserDetails("", "", "")
         )
     )
     MyApplicationTheme {

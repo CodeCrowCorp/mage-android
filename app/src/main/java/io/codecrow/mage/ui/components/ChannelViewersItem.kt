@@ -13,11 +13,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import io.codecrow.mage.R
+import io.codecrow.mage.model.Channel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChannelViewersItem() {
+fun ChannelViewersItem(channel: Channel) {
     AssistChip(
         label = { Text(text = "LIVE") },
         colors = AssistChipDefaults.assistChipColors(
@@ -30,7 +31,7 @@ fun ChannelViewersItem() {
 
     Spacer(modifier = Modifier.width(5.dp))
     AssistChip(
-        label = { Text(text = "158") },
+        label = { Text(text = channel.memberCount.toString()) },
         leadingIcon = {
             Image(
                 painter = painterResource(id = R.drawable.ic_viewers_24),

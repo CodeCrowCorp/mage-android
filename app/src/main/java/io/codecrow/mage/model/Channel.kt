@@ -31,6 +31,10 @@ data class Channel(
     @Expose
     var user: String,
 
+    @SerializedName("memberCount")
+    @Expose
+    var memberCount: Int,
+
     @SerializedName("channelType")
     @Expose
     var channelType: String,

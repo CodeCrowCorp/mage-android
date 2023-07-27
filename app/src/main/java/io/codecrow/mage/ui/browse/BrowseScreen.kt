@@ -125,6 +125,7 @@ private fun PortraitPreview() {
             listOf(""),
             listOf(""),
             "",
+            0,
             "channel",
             UserDetails("", "", "")
         )
@@ -146,6 +147,7 @@ private fun LandscapePreview() {
             listOf(""),
             listOf(""),
             "",
+            0,
             "channel",
             UserDetails("", "", "")
         )

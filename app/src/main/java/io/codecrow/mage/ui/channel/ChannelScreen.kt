@@ -20,6 +20,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import io.codecrow.mage.model.Channel
+import io.codecrow.mage.model.UserDetails
 import io.codecrow.mage.ui.browse.LoadingView
 import io.codecrow.mage.ui.theme.MyApplicationTheme
 
@@ -82,7 +83,7 @@ internal fun ChannelScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PortraitPreview() {
-    var channels =
+    val channels =
         listOf(
             Channel(
                 "",
@@ -92,10 +93,8 @@ private fun PortraitPreview() {
                 listOf(""),
                 listOf(""),
                 "",
-                "User",
-                "DisplayName",
-                "",
-                "channel"
+                "channel",
+                UserDetails("","","")
             )
         )
     MyApplicationTheme {
@@ -106,7 +105,7 @@ private fun PortraitPreview() {
 @Preview(showBackground = true, widthDp = 480)
 @Composable
 private fun LandscapePreview() {
-    var channels =
+    val channels =
         listOf(
             Channel(
                 "",
@@ -116,10 +115,8 @@ private fun LandscapePreview() {
                 listOf(""),
                 listOf(""),
                 "",
-                "User",
-                "DisplayName",
-                "",
-                "channel"
+                "channel",
+                UserDetails("","","")
             )
         )
     MyApplicationTheme {

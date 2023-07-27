@@ -59,7 +59,7 @@ fun ChannelItem(channel: Channel, onClick: (channelId: String) -> Unit) {
                         verticalAlignment = Alignment.Top,
                         horizontalArrangement = Arrangement.Start
                     ) {
-                        ChannelViewersItem()
+                        ChannelViewersItem(channel)
                     }
                     Row(
                         modifier = Modifier

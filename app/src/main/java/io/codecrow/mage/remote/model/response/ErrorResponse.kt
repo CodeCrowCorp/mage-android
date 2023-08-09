@@ -1,4 +1,4 @@
-package io.codecrow.mage.model.response
+package io.codecrow.mage.remote.model.response
 
 data class ErrorResponse(
     val message: String?

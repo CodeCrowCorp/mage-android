@@ -26,6 +26,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
@@ -40,7 +41,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
-import io.codecrow.mage.model.Channel
+import androidx.compose.ui.unit.dp
+import io.codecrow.mage.remote.model.Channel
+import io.codecrow.mage.remote.utils.DataStatus
 import io.codecrow.mage.ui.components.TitleTextStyle
 import io.codecrow.mage.ui.theme.*
 
@@ -49,44 +52,42 @@ import io.codecrow.mage.ui.theme.*
 fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hiltViewModel()) {
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val context = LocalContext.current
-    val items by produceState<BrowseUiState>(
-        initialValue = BrowseUiState.Loading,
-        key1 = lifecycle,
-        key2 = viewModel
-    ) {
-        lifecycle.repeatOnLifecycle(state = STARTED) {
-            viewModel.uiState.collect {
-                value = it
-            }
 
+    val channelListDetail by viewModel.channelListState.collectAsState()
+
+    when (channelListDetail.status) {
+        DataStatus.LOADING -> {
+            LoadingView()
         }
-    }
-    if (items is BrowseUiState.Success) {
-        BrowseScreen(
-            items = (items as BrowseUiState.Success).data,
-            enterChannel = viewModel::enterChannel,
-            modifier = modifier,
-            onClick = {
-                Toast.makeText(context, it.title, Toast.LENGTH_LONG).show()
-                Toast.makeText(context, it.avatar, Toast.LENGTH_LONG).show()
+        DataStatus.SUCCESS -> {
+            channelListDetail.data?.let {
+                BrowseScreen(
+                    items = it,
+                    enterChannel = viewModel::enterChannel,
+                    modifier = modifier,
+                    onClick = {
+                        Toast.makeText(context, it.title, Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, it.avatar, Toast.LENGTH_LONG).show()
+                    }
+                )
             }
-        )
-    } else if (items is BrowseUiState.Loading) {
-        LoadingView()
+        }
+        else -> {}
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun BrowseScreen(
-    items: List<Channel>,
+    items: ArrayList<Channel>,
     enterChannel: (_id: String) -> Unit,
     modifier: Modifier = Modifier,
     onClick: (Channel) -> Unit = {}
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+
     val state = rememberLazyListState()
-    val snappingLayout = remember(state) { SnapLayoutInfoProvider(state, positionInLayout = {_,_ -> 0f})}
+    val snappingLayout = remember(state) { SnapLayoutInfoProvider(state) }
     val flingBehavior = rememberSnapFlingBehavior(snappingLayout)
 
     Scaffold(
@@ -123,20 +124,12 @@ internal fun BrowseScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PortraitPreview() {
-    var channels =
-        listOf(
+    val channels =
+        arrayListOf(
             Channel(
                 "",
                 "VideoTitle",
                 "des",
-                "",
-                listOf(""),
-                listOf(""),
-                "",
-                "User",
-                "DisplayName",
-                "",
-                "channel"
             )
         )
     MyApplicationTheme {
@@ -147,20 +140,12 @@ private fun PortraitPreview() {
 @Preview(showBackground = true, widthDp = 480)
 @Composable
 private fun LandscapePreview() {
-    var channels =
-        listOf(
+    val channels =
+        arrayListOf(
             Channel(
                 "",
                 "VideoTitle",
                 "des",
-                "",
-                listOf(""),
-                listOf(""),
-                "",
-                "User",
-                "DisplayName",
-                "",
-                "channel"
             )
         )
     MyApplicationTheme {

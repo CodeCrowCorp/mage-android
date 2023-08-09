@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.codecrow.mage.model.Channel
+import io.codecrow.mage.remote.model.Channel
 import io.codecrow.mage.ui.components.ChannelViewersItem
 import io.codecrow.mage.ui.components.UserProfileImage
 

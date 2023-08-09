@@ -6,6 +6,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.codecrow.mage.data.service.ChannelApi
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -14,19 +17,14 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiModule {
 
-    @Singleton
     @Provides
-    fun providesGsonBuilder(): Gson =
-        GsonBuilder()
-            .excludeFieldsWithoutExposeAnnotation()
-            .create()
-
     @Singleton
-    @Provides
-    fun providesRetrofit(gson: Gson): Retrofit =
+    fun providesRetrofit(): ChannelApi =
         Retrofit.Builder()
             .baseUrl("https://dev.api.mage.stream/")
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)).build())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
+            .create(ChannelApi::class.java)
 
 }

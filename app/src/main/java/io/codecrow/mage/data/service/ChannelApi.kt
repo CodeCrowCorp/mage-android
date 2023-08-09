@@ -1,6 +1,7 @@
 package io.codecrow.mage.data.service
 
-import io.codecrow.mage.model.Channel
+import io.codecrow.mage.remote.model.Channel
+import io.codecrow.mage.remote.model.channel_response.ChannelResponseItem
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -25,7 +26,7 @@ interface ChannelApi {
     suspend fun getMyChannels(@Query("searchQuery") searchQuery: String, @Query("techStack") techStack: String, @Query("skip") skip: String, @Query("limit") limit: String): List<Channel>
 
     @GET("channels")
-    suspend fun getChannels(@Query("searchQuery") searchQuery: String, @Query("skip") skip: Int, @Query("limit") limit: Int): Response<List<Channel>>
+    suspend fun getChannels(@Query("searchQuery") searchQuery: String, @Query("skip") skip: Int, @Query("limit") limit: Int): ArrayList<ChannelResponseItem>
 
     @GET("channels/user")
     suspend fun getChannelsByUserId(@Query("searchQuery") searchQuery: String, @Query("skip") skip: String, @Query("limit") limit: String): List<Channel>

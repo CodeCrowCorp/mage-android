@@ -21,23 +21,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.codecrow.mage.data.datasource.ChannelRemote
-import io.codecrow.mage.model.Channel
+import io.codecrow.mage.remote.model.Channel
+import io.codecrow.mage.remote.utils.Resource
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
 class BrowseViewModel @Inject constructor(
-private val channelRemote: ChannelRemote
+    private val channelRemote: ChannelRemote
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<BrowseUiState>(BrowseUiState.Loading)
-    val uiState: StateFlow<BrowseUiState> = _uiState
-
+    private val _channelListState: MutableStateFlow<Resource<ArrayList<Channel>>> =
+        MutableStateFlow(Resource.loading())
+    val channelListState = _channelListState.asStateFlow()
 
     init {
         getChannels("", 0, 100)
     }
+
     fun enterChannel(_id: String) {
         viewModelScope.launch {
 //            channelRepository.add(name)
@@ -45,20 +47,9 @@ private val channelRemote: ChannelRemote
     }
 
     private fun getChannels(searchQuery: String, skip: Int, limit: Int) {
-        viewModelScope.launch {
-            channelRemote.getChannels(searchQuery, skip, limit).either({
-                _uiState.value = BrowseUiState.Error(it)
-            }, {
-                Log.d("HERE", it.toString())
-                _uiState.value = BrowseUiState.Success(it)
-            })
-        }
-
+        channelRemote.getAllChannels(searchQuery, skip, limit).map {
+            _channelListState.value = it
+        }.launchIn(viewModelScope)
     }
 }
 
-sealed interface BrowseUiState {
-    object Loading : BrowseUiState
-    data class Error(val throwable: Throwable) : BrowseUiState
-    data class Success(val data: List<Channel>) : BrowseUiState
-}

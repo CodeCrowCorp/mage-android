@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import io.codecrow.mage.R
-import io.codecrow.mage.model.Channel
+import io.codecrow.mage.remote.model.Channel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,3 +47,4 @@ fun ChannelViewersItem(channel: Channel) {
         onClick = {}
     )
 }
+

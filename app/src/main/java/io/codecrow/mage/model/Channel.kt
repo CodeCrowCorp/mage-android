@@ -1,6 +1,7 @@
 package io.codecrow.mage.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import io.codecrow.mage.remote.model.UserDetails
 
 data class Channel(
     @SerializedName("_id")

@@ -42,11 +42,11 @@ fun MainNavigation() {
         composable("channel/{channelId}") { backStackEntry ->
             val channelId = backStackEntry.arguments?.getString("channelId") ?: ""
             val viewModel = hiltViewModel<ChannelViewModel>()
-            viewModel.setChannelId(channelId)
             ChannelScreen(
                 navController = navController,
                 modifier = Modifier.padding(16.dp),
-                viewModel = viewModel
+                viewModel = viewModel,
+                channelID = channelId
             )
         }
     }

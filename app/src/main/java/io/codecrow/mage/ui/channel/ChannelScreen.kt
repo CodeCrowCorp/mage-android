@@ -4,23 +4,20 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
-import io.codecrow.mage.model.Channel
-import io.codecrow.mage.model.UserDetails
+import io.codecrow.mage.remote.model.Channel
+import io.codecrow.mage.remote.utils.DataStatus
 import io.codecrow.mage.ui.browse.LoadingView
 import io.codecrow.mage.ui.theme.MyApplicationTheme
 
@@ -28,39 +25,40 @@ import io.codecrow.mage.ui.theme.MyApplicationTheme
 fun ChannelScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    viewModel: ChannelViewModel = hiltViewModel()
+    viewModel: ChannelViewModel = hiltViewModel(),
+    channelID : String
 ) {
-    val lifecycle = LocalLifecycleOwner.current.lifecycle
-    val context = LocalContext.current
-    val items by produceState<ChannelUiState>(
-        initialValue = ChannelUiState.Loading,
-        key1 = lifecycle,
-        key2 = viewModel
-    ) {
-        lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
-            viewModel.uiState.collect {
-                value = it
-            }
+    val channelDetail by viewModel.channelState.collectAsState()
 
-        }
+    LaunchedEffect(Unit) {
+        viewModel.getChannelById(channelID)
     }
-    if (items is ChannelUiState.Success) {
-        ChannelScreen(
-            items = (items as ChannelUiState.Success).data,
-            modifier = modifier,
-            onClick = {
-                navController.navigate("channel/$it")
+
+    when (channelDetail.status) {
+        DataStatus.LOADING -> {
+            LoadingView()
+        }
+        DataStatus.SUCCESS -> {
+            channelDetail.data.let {
+                it?.let { it1 ->
+                    ChannelScreen(
+                        items = it1,
+                        modifier = modifier,
+                        onClick = {
+                            navController.navigate("channel/$it")
+                        }
+                    )
+                }
             }
-        )
-    } else if (items is ChannelUiState.Loading) {
-        LoadingView()
+        }
+        else -> {}
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun ChannelScreen(
-    items: List<Channel>,
+    items: Channel,
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit = {}
 ) {
@@ -83,45 +81,29 @@ internal fun ChannelScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PortraitPreview() {
-    val channels =
-        listOf(
-            Channel(
-                "",
-                "VideoTitle",
-                "des",
-                "",
-                listOf(""),
-                listOf(""),
-                "",
-                0,
-                "channel",
-                UserDetails("","","")
-            )
+    val channel = Channel(
+            "",
+            "VideoTitle",
+            "des",
+            "",
+            ""
         )
     MyApplicationTheme {
-        ChannelScreen(channels)
+        ChannelScreen(channel)
     }
 }
 
 @Preview(showBackground = true, widthDp = 480)
 @Composable
 private fun LandscapePreview() {
-    val channels =
-        listOf(
-            Channel(
-                "",
-                "VideoTitle",
-                "des",
-                "",
-                listOf(""),
-                listOf(""),
-                "",
-                0,
-                "channel",
-                UserDetails("","","")
-            )
-        )
+    val channel = Channel(
+        "",
+        "VideoTitle",
+        "des",
+        "",
+        ""
+    )
     MyApplicationTheme {
-        ChannelScreen(channels)
+        ChannelScreen(channel)
     }
 }

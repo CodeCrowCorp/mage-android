@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.codecrow.mage.model.Channel
+import io.codecrow.mage.remote.model.Channel
 import io.codecrow.mage.ui.components.ChannelViewersItem
 
 @Composable
@@ -88,7 +88,7 @@ fun ChannelDetail(channel: Channel, onClick: () -> Unit) {
                                     )
                             ) {
                                 Text(
-                                    text = "@" + channel.userDetails.username,
+                                    text = "@" + channel.createdByUsername,
                                     color = MaterialTheme.colorScheme.onPrimary,
                                     style = TextStyle(
                                         //  fontFamily = FontFamily("Montserrat"),

@@ -1,14 +1,15 @@
 package io.codecrow.mage.ui.channel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.codecrow.mage.data.datasource.ChannelRemote
-import io.codecrow.mage.model.Channel
+import io.codecrow.mage.remote.model.Channel
+import io.codecrow.mage.remote.utils.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,33 +17,14 @@ class ChannelViewModel @Inject constructor(
     private val channelRemote: ChannelRemote
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<ChannelUiState>(ChannelUiState.Loading)
-    val uiState: StateFlow<ChannelUiState> = _uiState
-    private val channelId = MutableStateFlow("")
+    private val _channelState: MutableStateFlow<Resource<Channel>> =
+        MutableStateFlow(Resource.loading())
+    val channelState = _channelState.asStateFlow()
 
-    init {
-        getChannels("", 0, 100)
+    fun getChannelById(channelID : String) {
+        channelRemote.getChannelByID(channelID).map {
+            _channelState.value = it
+        }.launchIn(viewModelScope)
     }
 
-    fun setChannelId(channelId: String) {
-        this.channelId.value = channelId
-    }
-
-    private fun getChannels(searchQuery: String, skip: Int, limit: Int) {
-        viewModelScope.launch {
-            channelRemote.getChannels(searchQuery, skip, limit).either({
-                _uiState.value = ChannelUiState.Error(it)
-            }, {
-                Log.d("HERE", it.toString())
-                _uiState.value = ChannelUiState.Success(it)
-            })
-        }
-
-    }
-}
-
-sealed interface ChannelUiState {
-    object Loading : ChannelUiState
-    data class Error(val throwable: Throwable) : ChannelUiState
-    data class Success(val data: List<Channel>) : ChannelUiState
 }

@@ -18,7 +18,6 @@ package io.codecrow.mage.ui.browse
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
-import androidx.compose.foundation.gestures.snapping.SnapPositionInLayout
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,50 +25,43 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle.State.STARTED
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavController
-import io.codecrow.mage.model.Channel
-import io.codecrow.mage.model.UserDetails
+import io.codecrow.mage.remote.model.Channel
+import io.codecrow.mage.remote.utils.DataStatus
 import io.codecrow.mage.ui.components.TitleTextStyle
 import io.codecrow.mage.ui.theme.*
 
-
 @Composable
-fun BrowseScreen(
-    modifier: Modifier = Modifier,
-    navController: NavController,
-    viewModel: BrowseViewModel = hiltViewModel()
-) {
-    val lifecycle = LocalLifecycleOwner.current.lifecycle
+fun BrowseScreen(navController: NavController, modifier: Modifier = Modifier, viewModel: BrowseViewModel = hiltViewModel()) {
     val context = LocalContext.current
-    val items by produceState<BrowseUiState>(
-        initialValue = BrowseUiState.Loading, key1 = lifecycle, key2 = viewModel
-    ) {
-        lifecycle.repeatOnLifecycle(state = STARTED) {
-            viewModel.uiState.collect {
-                value = it
-            }
+    val channelListDetail by viewModel.channelListState.collectAsState()
 
+    when (channelListDetail.status) {
+        DataStatus.LOADING -> {
+            LoadingView()
         }
-    }
-    if (items is BrowseUiState.Success) {
-        BrowseScreen(items = (items as BrowseUiState.Success).data, modifier = modifier, onClick = {
-            navController.navigate("channel/$it")
-        })
-    } else if (items is BrowseUiState.Loading) {
-        LoadingView()
+        DataStatus.SUCCESS -> {
+            channelListDetail.data?.let {
+                BrowseScreen(
+                    items = it,
+                    modifier = modifier,
+                    onClick = {
+                        navController.navigate("channel/$it")
+                    }
+                )
+            }
+        }
+        else -> {}
     }
 }
 
@@ -85,7 +77,6 @@ internal fun BrowseScreen(
     val flingBehavior = rememberSnapFlingBehavior(snappingLayout)
 
     Scaffold(
-
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -116,20 +107,16 @@ internal fun BrowseScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PortraitPreview() {
-    val channels = listOf(
-        Channel(
-            "",
-            "VideoTitle",
-            "des",
-            "",
-            listOf(""),
-            listOf(""),
-            "",
-            0,
-            "channel",
-            UserDetails("", "", "")
+    val channels =
+        arrayListOf(
+            Channel(
+                "1",
+                "Test",
+                "VideoTitle",
+                "des",
+                "0"
+            )
         )
-    )
     MyApplicationTheme {
         BrowseScreen(channels, onClick = {})
     }
@@ -138,20 +125,16 @@ private fun PortraitPreview() {
 @Preview(showBackground = true, widthDp = 480)
 @Composable
 private fun LandscapePreview() {
-    val channels = listOf(
-        Channel(
-            "",
-            "VideoTitle",
-            "des",
-            "",
-            listOf(""),
-            listOf(""),
-            "",
-            0,
-            "channel",
-            UserDetails("", "", "")
+    val channels =
+        arrayListOf(
+            Channel(
+                "2",
+                "",
+                "VideoTitle",
+                "des",
+                "0"
+            )
         )
-    )
     MyApplicationTheme {
         BrowseScreen(channels, onClick = {})
     }

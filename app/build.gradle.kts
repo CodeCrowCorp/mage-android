@@ -139,4 +139,6 @@ dependencies {
 
     //Accompanist
     implementation(libs.accompanist)
+
+    implementation (libs.logging.interceptor)
 }

@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.codecrow.mage.model.Channel
+import io.codecrow.mage.remote.model.Channel
 import io.codecrow.mage.ui.components.ChannelViewersItem
 import io.codecrow.mage.ui.components.UserProfileImage
 
@@ -30,7 +30,7 @@ fun ChannelItem(channel: Channel, onClick: (channelId: String) -> Unit) {
             .height(400.dp) //TODO: set min height
             .padding(10.dp)
             .clip(RoundedCornerShape(4.dp))
-            .clickable { onClick(channel._id) }
+            .clickable { onClick(channel.id) }
     ) {
         Card(
             elevation = CardDefaults.cardElevation(),
@@ -110,7 +110,7 @@ fun ChannelItem(channel: Channel, onClick: (channelId: String) -> Unit) {
                                 verticalAlignment = Alignment.Bottom,
                                 modifier = Modifier.fillMaxSize()
                             ) {
-                                UserProfileImage(channel.userDetails.avatar)
+                                UserProfileImage(channel.avatar)
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Column(
                                     Modifier
@@ -121,7 +121,7 @@ fun ChannelItem(channel: Channel, onClick: (channelId: String) -> Unit) {
                                         )
                                 ) {
                                     Text(
-                                        text = "@" + channel.userDetails.username,
+                                        text = "@" + channel.createdByUsername,
                                         color = MaterialTheme.colorScheme.onPrimary,
                                         style = TextStyle(
                                             //  fontFamily = FontFamily("Montserrat"),

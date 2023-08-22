@@ -1,4 +1,4 @@
-package io.codecrow.mage.model
+package io.codecrow.mage.remote.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 

@@ -16,7 +16,6 @@
 
 package io.codecrow.mage.ui.browse
 
-import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -28,31 +27,23 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle.State.STARTED
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import io.codecrow.mage.remote.model.Channel
 import io.codecrow.mage.remote.utils.DataStatus
 import io.codecrow.mage.ui.components.TitleTextStyle
 import io.codecrow.mage.ui.theme.*
 
-
 @Composable
-fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hiltViewModel()) {
-    val lifecycle = LocalLifecycleOwner.current.lifecycle
+fun BrowseScreen(navController: NavController, modifier: Modifier = Modifier, viewModel: BrowseViewModel = hiltViewModel()) {
     val context = LocalContext.current
-
     val channelListDetail by viewModel.channelListState.collectAsState()
 
     when (channelListDetail.status) {
@@ -63,11 +54,9 @@ fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hil
             channelListDetail.data?.let {
                 BrowseScreen(
                     items = it,
-                    enterChannel = viewModel::enterChannel,
                     modifier = modifier,
                     onClick = {
-                        Toast.makeText(context, it.title, Toast.LENGTH_LONG).show()
-                        Toast.makeText(context, it.avatar, Toast.LENGTH_LONG).show()
+                        navController.navigate("channel/$it")
                     }
                 )
             }
@@ -79,30 +68,24 @@ fun BrowseScreen(modifier: Modifier = Modifier, viewModel: BrowseViewModel = hil
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun BrowseScreen(
-    items: ArrayList<Channel>,
-    enterChannel: (_id: String) -> Unit,
-    modifier: Modifier = Modifier,
-    onClick: (Channel) -> Unit = {}
+    items: List<Channel>, modifier: Modifier = Modifier, onClick: (String) -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
     val state = rememberLazyListState()
-    val snappingLayout = remember(state) { SnapLayoutInfoProvider(state) }
+    val snappingLayout =
+        remember(state) { SnapLayoutInfoProvider(state) { _: Int, _: Int, _: Int -> 0 } }
     val flingBehavior = rememberSnapFlingBehavior(snappingLayout)
 
     Scaffold(
-
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
             CenterAlignedTopAppBar(
-            title = {
+                title = {
                     TitleTextStyle()
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.surface),
                 scrollBehavior = scrollBehavior
             )
-        },
-        content = {
+        }, content = {
 //            var nameBrowse by remember { mutableStateOf("Compose") }
             LazyColumn(
                 modifier = Modifier
@@ -111,9 +94,9 @@ internal fun BrowseScreen(
                 state = state,
                 flingBehavior = flingBehavior,
 
-            ) {
+                ) {
                 items(items) { it: Channel ->
-                    ChannelItem(it)
+                    ChannelItem(it) { channelId -> onClick(channelId) }
                 }
             }
         })
@@ -127,13 +110,15 @@ private fun PortraitPreview() {
     val channels =
         arrayListOf(
             Channel(
-                "",
+                "1",
+                "Test",
                 "VideoTitle",
                 "des",
+                "0"
             )
         )
     MyApplicationTheme {
-        BrowseScreen(channels, enterChannel = {})
+        BrowseScreen(channels, onClick = {})
     }
 }
 
@@ -143,13 +128,15 @@ private fun LandscapePreview() {
     val channels =
         arrayListOf(
             Channel(
+                "2",
                 "",
                 "VideoTitle",
                 "des",
+                "0"
             )
         )
     MyApplicationTheme {
-        BrowseScreen(channels, enterChannel = {})
+        BrowseScreen(channels, onClick = {})
     }
 }
 
@@ -161,8 +148,8 @@ fun LoadingView() {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-            repeat(5) {
-                LoadingChannelItem()
-            }
+        repeat(5) {
+            LoadingChannelItem()
+        }
     }
 }

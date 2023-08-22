@@ -13,13 +13,15 @@ constructor() :
 
     override suspend fun map(input: ChannelResponseItem): Channel {
         return Channel(
+            id = input.id.orEmpty(),
             title = input.title.orEmpty(),
             avatar = input.userDetails?.avatar.orEmpty(),
-            createdByUsername = input.userDetails?.username.orEmpty()
+            createdByUsername = input.userDetails?.username.orEmpty(),
+            memberCount = input.memberCount.toString()
         )
     }
 
-    suspend fun mapAllChannels(botItems : ArrayList<ChannelResponseItem>) : ArrayList<Channel>{
+    suspend fun mapAllChannels(botItems: ArrayList<ChannelResponseItem>): ArrayList<Channel> {
         val allBots = ArrayList<Channel>()
         Log.i("__TAG", GsonBuilder().setPrettyPrinting().create().toJson(botItems))
         botItems.forEachIndexed { index, channelResponseItem ->

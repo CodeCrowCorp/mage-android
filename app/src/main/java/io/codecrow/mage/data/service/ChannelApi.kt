@@ -17,7 +17,7 @@ interface ChannelApi {
     suspend fun deleteChannel(@Query("channelId") channelId: String): List<Channel>
 
     @GET("channel")
-    suspend fun getChannel(@Query("channelId") channelId: String): Channel
+    suspend fun getChannel(@Query("channelId") channelId: String): ChannelResponseItem
 
     @GET("channels/friend")
     suspend fun getFriendChannel(@Query("title") title: String): Channel

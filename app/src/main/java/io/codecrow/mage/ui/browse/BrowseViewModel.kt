@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BrowseViewModel @Inject constructor(
-private val channelRemote: ChannelRemote
+    private val channelRemote: ChannelRemote
 ) : ViewModel() {
 
     private val _channelListState: MutableStateFlow<Resource<ArrayList<Channel>>> =

@@ -27,4 +27,13 @@ class ChannelRemoteImpl @Inject constructor(
         }
     }
 
+    override fun getChannelByID(channelId: String): Flow<Resource<Channel>> {
+        return flow {
+            emit(Resource.loading())
+            emit(Resource.success(data = channelMapper.map(channelApi.getChannel(channelId))))
+        }.catch { e ->
+            emit(Resource.error(e))
+        }
+    }
+
 }

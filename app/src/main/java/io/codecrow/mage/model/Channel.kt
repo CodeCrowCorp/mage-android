@@ -31,19 +31,15 @@ data class Channel(
     @Expose
     var user: String,
 
-    @SerializedName("createdByDisplayName")
+    @SerializedName("memberCount")
     @Expose
-    var createdByDisplayName: String,
-
-    @SerializedName("createdByUsername")
-    @Expose
-    var createdByUsername: String,
-
-    @SerializedName("avatar")
-    @Expose
-    var avatar: String,
+    var memberCount: Int,
 
     @SerializedName("channelType")
     @Expose
     var channelType: String,
+
+    @SerializedName("userDetails")
+    @Expose
+    var userDetails: UserDetails,
 )

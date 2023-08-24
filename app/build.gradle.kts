@@ -21,20 +21,28 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt.gradle)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.service)
 }
 
 android {
     namespace = "io.codecrow.mage"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "io.codecrow.mage"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        addManifestPlaceholders(
+            hashMapOf(
+                ("auth0Domain" to "@string/com_auth0_domain"),
+                ("auth0Scheme" to "@string/com_auth0_scheme")
+            )
+        )
 
-        testInstrumentationRunner = "io.codecrow.mage.HiltTestRunner"
+        testInstrumentationRunner =
+            "io.codecrow.mage.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -48,7 +56,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -130,6 +141,7 @@ dependencies {
     implementation(libs.retrofit)
     // Retrofit Gson converter
     implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     //CoilImage
     implementation(libs.coilImage)
@@ -139,4 +151,11 @@ dependencies {
 
     //Accompanist
     implementation(libs.accompanist)
+
+    //Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
+
+    implementation(libs.auth.zero)
 }

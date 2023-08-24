@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BrowseViewModel @Inject constructor(
-private val channelRemote: ChannelRemote
+    private val channelRemote: ChannelRemote
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<BrowseUiState>(BrowseUiState.Loading)
@@ -37,11 +37,6 @@ private val channelRemote: ChannelRemote
 
     init {
         getChannels("", 0, 100)
-    }
-    fun enterChannel(_id: String) {
-        viewModelScope.launch {
-//            channelRepository.add(name)
-        }
     }
 
     private fun getChannels(searchQuery: String, skip: Int, limit: Int) {

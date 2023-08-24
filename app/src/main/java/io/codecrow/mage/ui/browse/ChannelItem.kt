@@ -23,14 +23,14 @@ import io.codecrow.mage.ui.components.ChannelViewersItem
 import io.codecrow.mage.ui.components.UserProfileImage
 
 @Composable
-fun ChannelItem(channel: Channel) {
+fun ChannelItem(channel: Channel, onClick: (channelId: String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .height(400.dp) //TODO: set min height
             .padding(10.dp)
             .clip(RoundedCornerShape(4.dp))
-//            .clickable { onClick(it) }
+            .clickable { onClick(channel._id) }
     ) {
         Card(
             elevation = CardDefaults.cardElevation(),
@@ -59,7 +59,7 @@ fun ChannelItem(channel: Channel) {
                         verticalAlignment = Alignment.Top,
                         horizontalArrangement = Arrangement.Start
                     ) {
-                        ChannelViewersItem()
+                        ChannelViewersItem(channel)
                     }
                     Row(
                         modifier = Modifier
@@ -110,7 +110,7 @@ fun ChannelItem(channel: Channel) {
                                 verticalAlignment = Alignment.Bottom,
                                 modifier = Modifier.fillMaxSize()
                             ) {
-                                UserProfileImage(channel.avatar)
+                                UserProfileImage(channel.userDetails.avatar)
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Column(
                                     Modifier
@@ -121,7 +121,7 @@ fun ChannelItem(channel: Channel) {
                                         )
                                 ) {
                                     Text(
-                                        text = "@"+channel.createdByUsername,
+                                        text = "@" + channel.userDetails.username,
                                         color = MaterialTheme.colorScheme.onPrimary,
                                         style = TextStyle(
                                             //  fontFamily = FontFamily("Montserrat"),

@@ -106,20 +106,20 @@ fun LoadingChannelItem() {
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Box{
-                        Spacer(
-                            modifier = Modifier
-                                .size(48.dp)
-                                .clip(CircleShape)
-                                .background(brush)
-                        ) //{
+                        Box {
+                            Spacer(
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .clip(CircleShape)
+                                    .background(brush)
+                            ) //{
                             Icon(
                                 imageVector = Icons.Default.PlayArrow,
                                 contentDescription = "Play button",
                                 modifier = Modifier.size(48.dp),
                                 tint = Color.White.copy(alpha = 0.2f),
                             )
-                       }
+                        }
                     }
                     Row(
                         modifier = Modifier
@@ -185,6 +185,7 @@ private fun PortraitPreview() {
         LoadingChannelItem()
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 private fun LandscapePreview() {

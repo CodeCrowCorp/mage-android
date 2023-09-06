@@ -22,6 +22,7 @@ plugins {
     alias(libs.plugins.hilt.gradle)
     alias(libs.plugins.ksp)
     alias(libs.plugins.google.service)
+    alias(libs.plugins.plugin.serialize)
 }
 
 android {
@@ -157,5 +158,6 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.messaging)
 
-    implementation(libs.auth.zero)
+    //implementation(libs.auth.zero)
+    implementation(libs.kotlin.serialize)
 }

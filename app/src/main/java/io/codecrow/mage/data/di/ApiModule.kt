@@ -37,5 +37,4 @@ object ApiModule {
             .client(client)
             .build()
     }
-
 }

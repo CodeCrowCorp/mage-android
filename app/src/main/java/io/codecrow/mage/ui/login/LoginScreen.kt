@@ -3,6 +3,8 @@ package io.codecrow.mage.ui.login
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
+import android.provider.Browser
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.foundation.BorderStroke
@@ -36,20 +38,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.auth0.android.authentication.AuthenticationException
-import com.auth0.android.callback.Callback
-import com.auth0.android.provider.WebAuthProvider
-import com.auth0.android.result.Credentials
-import io.codecrow.mage.MageApplication
 import io.codecrow.mage.R
 import io.codecrow.mage.utils.Constant
+
 
 @Composable
 fun LoginScreen(
     navController: NavController,
     resultLauncher: ActivityResultLauncher<Intent>,
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier) {
 
     val context = LocalContext.current
 
@@ -73,21 +70,33 @@ fun LoginScreen(
                         .fillMaxSize()
                 )
                 DiscordLoginButton("Log in with Discord", R.drawable.ic_discord) {
-                    webAuth(context)
-                    //val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.DiscordUrl))
-                    //resultLauncher.launch(browserIntent)
+                    //webAuth(context,"discord")
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.DiscordUrl))
+                    val bundle = Bundle()
+                    bundle.putString("User-Agent", "Mage-Mobile")
+                    bundle.putString("x-api-key", "cdma2tw7ieznk3nqjpc7l7rkgcxrzm")
+                    browserIntent.putExtra(Browser.EXTRA_HEADERS, bundle)
+                    resultLauncher.launch(browserIntent)
                 }
 
                 GmailLoginButton(name = "Log in with Gmail", icon = R.drawable.ic_gmail) {
-                    webAuth(context)
-                    //val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.GoogleUrl))
-                    //resultLauncher.launch(browserIntent)
+                    //webAuth(context,"google-oauth2")
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.GoogleUrl))
+                    val bundle = Bundle()
+                    bundle.putString("User-Agent", "Mage-Mobile")
+                    bundle.putString("x-api-key", "cdma2tw7ieznk3nqjpc7l7rkgcxrzm")
+                    browserIntent.putExtra(Browser.EXTRA_HEADERS, bundle)
+                    resultLauncher.launch(browserIntent)
                 }
 
                 GithubLoginButton(name = "Log in with Github", icon = R.drawable.ic_github) {
-                    webAuth(context)
-                    //val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.GithubUrl))
-                    //resultLauncher.launch(browserIntent)
+                    //webAuth(context,"github")
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.GithubUrl))
+                    val bundle = Bundle()
+                    bundle.putString("User-Agent", "Mage-Mobile")
+                    bundle.putString("x-api-key", "cdma2tw7ieznk3nqjpc7l7rkgcxrzm")
+                    browserIntent.putExtra(Browser.EXTRA_HEADERS, bundle)
+                    resultLauncher.launch(browserIntent)
                 }
 
             }
@@ -95,25 +104,35 @@ fun LoginScreen(
     })
 }
 
+/*
 private val scope = "openid profile email read:current_user"
 
 private fun audience(context:Context): String {
     return "https://${context.getString(R.string.com_auth0_domain)}/api/v2/"
 }
 
-private fun webAuth(context: Context) {
+private fun webAuth(context: Context,connectionName:String) {
+    */
+/*val header = hashMapOf("User-Agent" to "Mage-Mobile", "x-api-key" to "cdma2tw7ieznk3nqjpc7l7rkgcxrzm")*//*
+
     WebAuthProvider.login(MageApplication.auth0)
+        .withConnection(connectionName)
+        */
+/*.withHeaders(header)*//*
+
         .withScheme(context.getString(R.string.com_auth0_scheme))
         .withAudience(audience(context))
         .withScope(scope)
         .start(context, object : Callback<Credentials, AuthenticationException> {
             override fun onSuccess(result: Credentials) {
                 //credentialsManager.saveCredentials(result)
-                /*Snackbar.make(
+                */
+/*Snackbar.make(
                     requireView(),
                     "Hello ${result.user.name}",
                     Snackbar.LENGTH_LONG
-                ).show()*/
+                ).show()*//*
+
                 Toast.makeText(context,"Hello ${result.user.name}",Toast.LENGTH_LONG).show()
             }
 
@@ -125,6 +144,7 @@ private fun webAuth(context: Context) {
             }
         })
 }
+*/
 
 @Composable
 fun DiscordLoginButton(name: String, icon: Int, callback: () -> Unit) {

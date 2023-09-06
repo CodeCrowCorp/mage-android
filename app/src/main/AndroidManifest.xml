@@ -33,6 +33,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:label="@string/app_name"
             android:theme="@style/Theme.App.Starting">
             <intent-filter>
@@ -44,9 +45,19 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:scheme="https"
-                    android:host="api.mage.stream"
-                    android:pathPrefix="/auth/discord" />
+                    android:scheme="mage-mobile"
+                    android:host="dev.mage.stream" />
+
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="http"
+                    android:host="localhost" />
+
             </intent-filter>
         </activity>
 

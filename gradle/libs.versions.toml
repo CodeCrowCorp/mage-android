@@ -24,7 +24,9 @@ accompanist = "0.31.3-beta"
 http_logging = "4.10.0"
 firebaseBom = "32.2.2"
 googleService = "4.3.15"
-authZero = "2.10.1"
+#authZero = "2.10.1"
+serializeVersion = "1.9.0"
+kotlinSerializeVersion = "1.5.1"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
@@ -59,7 +61,8 @@ logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", ver
 coilImage = {module = "io.coil-kt:coil-compose", version.ref = "coilImage"}
 splashscreen = {module = "androidx.core:core-splashscreen", version.ref = "splashscreen"}
 accompanist = {module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist"}
-auth_zero = {module = "com.auth0.android:auth0", version.ref = "authZero"}
+#auth_zero = {module = "com.auth0.android:auth0", version.ref = "authZero"}
+kotlin_serialize = {module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerializeVersion"}
 
 #firebase dependancies
 firebase-bom = {module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom"}
@@ -74,4 +77,4 @@ kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 hilt-gradle = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 google-service = { id = "com.google.gms.google-services", version.ref = "googleService" }
-
+plugin_serialize = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serializeVersion" }

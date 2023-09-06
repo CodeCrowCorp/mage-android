@@ -17,12 +17,14 @@
 package io.codecrow.mage.ui
 
 import android.content.Intent
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -33,11 +35,10 @@ import io.codecrow.mage.ui.login.LoginScreen
 
 @Composable
 fun MainNavigation(
-    resultLauncher: ActivityResultLauncher<Intent>
-) {
+    resultLauncher: ActivityResultLauncher<Intent>, route: String) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "login") {
+    NavHost(navController = navController, startDestination = route) {
 
         composable("login") {
             LoginScreen(navController = navController,resultLauncher = resultLauncher, modifier = Modifier.padding(16.dp))

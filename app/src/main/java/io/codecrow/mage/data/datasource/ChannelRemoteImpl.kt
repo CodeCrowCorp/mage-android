@@ -1,10 +1,12 @@
 package io.codecrow.mage.data.datasource
 
+import com.google.gson.JsonObject
 import io.codecrow.mage.data.DataException
 import io.codecrow.mage.data.Either
 import io.codecrow.mage.data.service.ChannelApi
 import io.codecrow.mage.data.handle
 import io.codecrow.mage.model.Channel
+import retrofit2.http.HeaderMap
 import javax.inject.Inject
 
 class ChannelRemoteImpl @Inject constructor(
@@ -16,6 +18,14 @@ class ChannelRemoteImpl @Inject constructor(
             api.getChannels(searchQuery, skip, limit)
         }) {
             Either.Right(it ?: emptyList())
+        }
+    }
+
+    override suspend fun subscribeToChannel(headerMap : HashMap<String,String>,channelId: String, jsonObject: JsonObject): Either<DataException, JsonObject> {
+        return handle({
+            api.subscribeToChannel(headerMap,channelId,jsonObject)
+        }) {
+            Either.Right(it ?: JsonObject())
         }
     }
 }

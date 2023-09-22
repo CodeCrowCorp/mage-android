@@ -23,7 +23,7 @@ import io.codecrow.mage.ui.components.ChannelViewersItem
 import io.codecrow.mage.ui.components.UserProfileImage
 
 @Composable
-fun ChannelItem(channel: Channel, onClick: (channelId: String) -> Unit) {
+fun ChannelItem(channel: Channel, onClick: (channelId: String) -> Unit, onSubscribeClick : (channelId: String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -60,6 +60,9 @@ fun ChannelItem(channel: Channel, onClick: (channelId: String) -> Unit) {
                         horizontalArrangement = Arrangement.Start
                     ) {
                         ChannelViewersItem(channel)
+                        Button(onClick = { onSubscribeClick(channel._id) },Modifier.padding(8.dp)) {
+                            Text("SubScribe", color = Color.White)
+                        }
                     }
                     Row(
                         modifier = Modifier

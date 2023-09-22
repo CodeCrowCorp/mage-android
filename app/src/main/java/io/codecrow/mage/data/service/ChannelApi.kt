@@ -1,8 +1,12 @@
 package io.codecrow.mage.data.service
 
+import com.google.gson.JsonObject
 import io.codecrow.mage.model.Channel
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.HeaderMap
+import retrofit2.http.PATCH
 import retrofit2.http.Query
 
 interface ChannelApi {
@@ -63,6 +67,8 @@ interface ChannelApi {
     @GET("channels/blocks/check")
     suspend fun checkIfUserBlocked(@Query("channelId") channelId: String): List<Channel>
 
+    @PATCH("favorites")
+    suspend fun subscribeToChannel(@HeaderMap headerMap : HashMap<String,String>,@Query("channelId") channelId: String,@Body jsonObject:JsonObject): Response<JsonObject>
 
 }
 

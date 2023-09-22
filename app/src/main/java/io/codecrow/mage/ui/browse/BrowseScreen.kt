@@ -16,6 +16,8 @@
 
 package io.codecrow.mage.ui.browse
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
 import androidx.compose.foundation.gestures.snapping.SnapPositionInLayout
@@ -61,12 +63,33 @@ fun BrowseScreen(
             viewModel.uiState.collect {
                 value = it
             }
+        }
+        lifecycle.repeatOnLifecycle(state = STARTED) {
+            viewModel.subscribeResponse.collect {
+                when(it){
+                    is BrowseUiState.SuccessSubscribe -> {
+                        Toast.makeText(context,"Subscribed To Channel",Toast.LENGTH_SHORT).show()
+                    }
+                    is BrowseUiState.Error-> {
+                        Toast.makeText(context,"Failed to subscribe",Toast.LENGTH_SHORT).show()
+                    }
+                    is BrowseUiState.Loading-> {
 
+                    }
+                    else -> {
+
+                    }
+                }
+            }
         }
     }
     if (items is BrowseUiState.Success) {
         BrowseScreen(items = (items as BrowseUiState.Success).data, modifier = modifier, onClick = {
             navController.navigate("channel/$it")
+        },{ channelId ->
+            Log.d("BrowseScreen", "BrowseScreen: ChannelId=$channelId")
+            //TODO: subscribe from here
+            viewModel.subscribeToChannel(channelId)
         })
     } else if (items is BrowseUiState.Loading) {
         LoadingView()
@@ -76,7 +99,7 @@ fun BrowseScreen(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun BrowseScreen(
-    items: List<Channel>, modifier: Modifier = Modifier, onClick: (String) -> Unit
+    items: List<Channel>, modifier: Modifier = Modifier, onClick: (String) -> Unit, onSubscribeClick : (channelId: String) -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val state = rememberLazyListState()
@@ -105,7 +128,7 @@ internal fun BrowseScreen(
 
                 ) {
                 items(items) { it: Channel ->
-                    ChannelItem(it) { channelId -> onClick(channelId) }
+                    ChannelItem(it,{ channelId -> onClick(channelId) },{ channelId -> onSubscribeClick(channelId)})
                 }
             }
         })
@@ -131,7 +154,7 @@ private fun PortraitPreview() {
         )
     )
     MyApplicationTheme {
-        BrowseScreen(channels, onClick = {})
+        BrowseScreen(channels, onClick = {}, onSubscribeClick = {})
     }
 }
 
@@ -153,7 +176,7 @@ private fun LandscapePreview() {
         )
     )
     MyApplicationTheme {
-        BrowseScreen(channels, onClick = {})
+        BrowseScreen(channels, onClick = {}, onSubscribeClick = {})
     }
 }
 

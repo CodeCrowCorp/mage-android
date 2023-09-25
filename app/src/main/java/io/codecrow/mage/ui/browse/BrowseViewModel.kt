@@ -26,6 +26,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.codecrow.mage.data.datasource.ChannelRemote
 import io.codecrow.mage.model.Channel
 import io.codecrow.mage.utils.Constant.X_API_KEY
+import io.codecrow.mage.utils.Constant.X_API_KEY_NEW
 import io.codecrow.mage.utils.PreferenceHelper
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.*
@@ -63,7 +64,7 @@ class BrowseViewModel @Inject constructor(private val preferenceHelper: Preferen
             viewModelScope.launch {
                 val jsonObject = JsonObject()
                 jsonObject.addProperty("deviceToken",it.result)
-                val hashMap = hashMapOf("token" to (preferenceHelper.getToken()?:""),"userId" to (preferenceHelper.getUserId() ?: ""))
+                val hashMap = hashMapOf("x-api-key" to X_API_KEY_NEW,"User-Agent" to "Mage-Mobile", "token" to (preferenceHelper.getToken()?:""),"userId" to (preferenceHelper.getUserId() ?: ""))
                 channelRemote.subscribeToChannel(hashMap,channelId,jsonObject).either({
                     _subscribeResponse.value = BrowseUiState.Error(it)
                 }, {

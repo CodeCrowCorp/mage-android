@@ -6,4 +6,8 @@ object Constant {
     const val GithubUrl = "https://github.com/login/oauth/authorize?allow_signup=true&client_id=9ed2c795950e25904971&scope=read%3Auser%20user%3Aemail"
 
     const val X_API_KEY = "cdma2tw7ieznk3nqjpc7l7rkgcxrzm"
+
+    const val X_API_KEY_NEW = "05owj9sa76w23p9ghztil5nf9c0ewx"
+
+
 }

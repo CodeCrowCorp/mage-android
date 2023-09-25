@@ -28,9 +28,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,6 +48,7 @@ import io.codecrow.mage.model.Channel
 import io.codecrow.mage.model.UserDetails
 import io.codecrow.mage.ui.components.TitleTextStyle
 import io.codecrow.mage.ui.theme.*
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -56,30 +59,32 @@ fun BrowseScreen(
 ) {
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    LaunchedEffect(coroutineScope){
+        viewModel.subscribeResponse.collect {
+            when(it){
+                is BrowseUiState.SuccessSubscribe -> {
+                    Toast.makeText(context,"Subscribed To Channel",Toast.LENGTH_SHORT).show()
+                }
+                is BrowseUiState.Error-> {
+                    Toast.makeText(context,"Failed to subscribe",Toast.LENGTH_SHORT).show()
+                }
+                is BrowseUiState.Loading-> {
+
+                }
+                else -> {
+
+                }
+            }
+        }
+    }
+
     val items by produceState<BrowseUiState>(
         initialValue = BrowseUiState.Loading, key1 = lifecycle, key2 = viewModel
     ) {
         lifecycle.repeatOnLifecycle(state = STARTED) {
             viewModel.uiState.collect {
                 value = it
-            }
-        }
-        lifecycle.repeatOnLifecycle(state = STARTED) {
-            viewModel.subscribeResponse.collect {
-                when(it){
-                    is BrowseUiState.SuccessSubscribe -> {
-                        Toast.makeText(context,"Subscribed To Channel",Toast.LENGTH_SHORT).show()
-                    }
-                    is BrowseUiState.Error-> {
-                        Toast.makeText(context,"Failed to subscribe",Toast.LENGTH_SHORT).show()
-                    }
-                    is BrowseUiState.Loading-> {
-
-                    }
-                    else -> {
-
-                    }
-                }
             }
         }
     }
@@ -94,6 +99,8 @@ fun BrowseScreen(
     } else if (items is BrowseUiState.Loading) {
         LoadingView()
     }
+
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)

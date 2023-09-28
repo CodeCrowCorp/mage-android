@@ -1,12 +1,9 @@
 package io.codecrow.mage.ui.login
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Browser
-import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -37,19 +34,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import io.codecrow.mage.R
 import io.codecrow.mage.utils.Constant
 
 
 @Composable
-fun LoginScreen(
-    navController: NavController,
-    resultLauncher: ActivityResultLauncher<Intent>,
-    modifier: Modifier = Modifier) {
-
+fun LoginScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-
     Scaffold(modifier = modifier, content = {
         Box(
             modifier
@@ -70,81 +61,36 @@ fun LoginScreen(
                         .fillMaxSize()
                 )
                 DiscordLoginButton("Log in with Discord", R.drawable.ic_discord) {
-                    //webAuth(context,"discord")
                     val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.DiscordUrl))
                     val bundle = Bundle()
                     bundle.putString("User-Agent", "Mage-Mobile")
                     bundle.putString("x-api-key", "cdma2tw7ieznk3nqjpc7l7rkgcxrzm")
                     browserIntent.putExtra(Browser.EXTRA_HEADERS, bundle)
-                    resultLauncher.launch(browserIntent)
+                    context.startActivity(browserIntent)
                 }
 
                 GmailLoginButton(name = "Log in with Gmail", icon = R.drawable.ic_gmail) {
-                    //webAuth(context,"google-oauth2")
                     val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.GoogleUrl))
                     val bundle = Bundle()
                     bundle.putString("User-Agent", "Mage-Mobile")
                     bundle.putString("x-api-key", "cdma2tw7ieznk3nqjpc7l7rkgcxrzm")
                     browserIntent.putExtra(Browser.EXTRA_HEADERS, bundle)
-                    resultLauncher.launch(browserIntent)
+                    context.startActivity(browserIntent)
                 }
 
                 GithubLoginButton(name = "Log in with Github", icon = R.drawable.ic_github) {
-                    //webAuth(context,"github")
                     val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.GithubUrl))
                     val bundle = Bundle()
                     bundle.putString("User-Agent", "Mage-Mobile")
                     bundle.putString("x-api-key", "cdma2tw7ieznk3nqjpc7l7rkgcxrzm")
                     browserIntent.putExtra(Browser.EXTRA_HEADERS, bundle)
-                    resultLauncher.launch(browserIntent)
+                    context.startActivity(browserIntent)
                 }
 
             }
         }
     })
 }
-
-/*
-private val scope = "openid profile email read:current_user"
-
-private fun audience(context:Context): String {
-    return "https://${context.getString(R.string.com_auth0_domain)}/api/v2/"
-}
-
-private fun webAuth(context: Context,connectionName:String) {
-    */
-/*val header = hashMapOf("User-Agent" to "Mage-Mobile", "x-api-key" to "cdma2tw7ieznk3nqjpc7l7rkgcxrzm")*//*
-
-    WebAuthProvider.login(MageApplication.auth0)
-        .withConnection(connectionName)
-        */
-/*.withHeaders(header)*//*
-
-        .withScheme(context.getString(R.string.com_auth0_scheme))
-        .withAudience(audience(context))
-        .withScope(scope)
-        .start(context, object : Callback<Credentials, AuthenticationException> {
-            override fun onSuccess(result: Credentials) {
-                //credentialsManager.saveCredentials(result)
-                */
-/*Snackbar.make(
-                    requireView(),
-                    "Hello ${result.user.name}",
-                    Snackbar.LENGTH_LONG
-                ).show()*//*
-
-                Toast.makeText(context,"Hello ${result.user.name}",Toast.LENGTH_LONG).show()
-            }
-
-            override fun onFailure(error: AuthenticationException) {
-                val message =
-                    if (error.isCanceled) "Browser was closed" else error.getDescription()
-                Toast.makeText(context,message,Toast.LENGTH_LONG).show()
-                //Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
-            }
-        })
-}
-*/
 
 @Composable
 fun DiscordLoginButton(name: String, icon: Int, callback: () -> Unit) {

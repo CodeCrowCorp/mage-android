@@ -34,14 +34,13 @@ import io.codecrow.mage.ui.channel.ChannelViewModel
 import io.codecrow.mage.ui.login.LoginScreen
 
 @Composable
-fun MainNavigation(
-    resultLauncher: ActivityResultLauncher<Intent>, route: String) {
+fun MainNavigation(route: String) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = route) {
 
         composable("login") {
-            LoginScreen(navController = navController,resultLauncher = resultLauncher, modifier = Modifier.padding(16.dp))
+            LoginScreen(modifier = Modifier.padding(16.dp))
         }
 
         composable("main") {

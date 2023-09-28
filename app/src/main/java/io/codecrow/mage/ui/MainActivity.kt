@@ -85,33 +85,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainNavigation(resultLauncher,route)
+                    MainNavigation(route)
                 }
             }
-        }
-    }
-
-    val resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val intent = result.data
-                handleAuthResult(intent?.data)
-            }
-        }
-
-    private fun handleAuthResult(data: Uri?) {
-        if (data != null) {
-            val urlString = data.toString()
-            if (urlString.contains("oauth_verifier")) {
-                val oauth_verifier = data.getQueryParameter("oauth_verifier")
-            } else {
-                val accessToken = data.getQueryParameter("access_token")
-                val userID = data.getQueryParameter("user_id")
-                val scope = data.getQueryParameter("scope")
-                val tokenType = data.getQueryParameter("token_type")
-                val expiresIn = data.getQueryParameter("expires_in")
-            }
-            Log.e("TAG", "handleAuthResult: " + data)
         }
     }
 

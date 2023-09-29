@@ -35,12 +35,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-        addManifestPlaceholders(
-            hashMapOf(
-                ("auth0Domain" to "@string/com_auth0_domain"),
-                ("auth0Scheme" to "@string/com_auth0_scheme")
-            )
-        )
 
         testInstrumentationRunner =
             "io.codecrow.mage.HiltTestRunner"

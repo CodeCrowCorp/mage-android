@@ -24,17 +24,4 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class MageApplication : Application() {
 
-    /*companion object {
-        lateinit var auth0: Auth0
-            private set
-    }*/
-
-    override fun onCreate() {
-        super.onCreate()
-        /*auth0 = Auth0(
-            getString(R.string.com_auth0_client_id),
-            getString(R.string.com_auth0_domain)
-        )*/
-    }
-
 }

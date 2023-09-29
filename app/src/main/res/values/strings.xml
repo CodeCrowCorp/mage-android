@@ -17,10 +17,4 @@
 <resources>
     <string name="app_name">Mage</string>
     <string name="default_notification_channel_id">mage_notification_channel</string>
-
-    <string name="com_auth0_client_id">L3EhzWvwAfJyY1jNpGsSietpQ1ykvuWG</string>
-    <string name="com_auth0_domain">dev-mage-stream.us.auth0.com</string>
-    <string name="com_auth0_scheme">mage-mobile</string>
-
-    <string name="appAuthRedirectScheme">https://discord.com/login?redirect_to=/oauth2/authorize?client_id=1025544065510555678&amp;redirect_uri=https%3A%2F%2Fapi.mage.stream%2Fauth%2Fdiscord%2Fcallback&amp;response_type=code&amp;scope=identify%20email&amp;state=eyJhcGlLZXkiOm51bGx9</string>
 </resources>

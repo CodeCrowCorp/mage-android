@@ -1,5 +1,5 @@
 [versions]
-androidGradlePlugin = "8.1.0"
+androidGradlePlugin = "8.1.2"
 androidxCore = "1.10.1"
 androidxLifecycle = "2.6.1"
 androidxActivity = "1.7.2"
@@ -12,15 +12,15 @@ androidxRoom = "2.5.2"
 androidxTest = "1.5.0" # https://github.com/android/android-test/issues/1412
 androidxTestExt = "1.1.5"
 androidxTestRunner = "1.5.2"
-coroutines = "1.7.0"
-hilt = "2.46.1"
+coroutines = "1.7.3"
+hilt = "2.48"
 junit = "4.13.2"
 kotlin = "1.9.0"
 ksp = "1.9.0-1.0.12"
 retrofit = "2.9.0"
 coilImage = "2.4.0"
 splashscreen = "1.0.0-beta02"
-accompanist = "0.31.3-beta"
+accompanist = "0.33.2-alpha"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }

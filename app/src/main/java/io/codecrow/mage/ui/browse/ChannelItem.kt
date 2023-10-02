@@ -60,7 +60,8 @@ fun ChannelItem(channel: Channel, onClick: (channelId: String) -> Unit, onSubscr
                         horizontalArrangement = Arrangement.Start
                     ) {
                         ChannelViewersItem(channel)
-                        Button(onClick = { onSubscribeClick(channel._id) },Modifier.padding(8.dp)) {
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Button(onClick = { onSubscribeClick(channel._id) }) {
                             Text("SubScribe", color = Color.White)
                         }
                     }

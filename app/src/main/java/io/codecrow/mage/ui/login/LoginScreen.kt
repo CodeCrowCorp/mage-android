@@ -1,9 +1,5 @@
 package io.codecrow.mage.ui.login
 
-import android.content.Intent
-import android.net.Uri
-import android.os.Bundle
-import android.provider.Browser
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -35,11 +31,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.codecrow.mage.R
+import io.codecrow.mage.ui.MainViewModel
 import io.codecrow.mage.utils.Constant
+import io.codecrow.mage.utils.Constant.X_API_KEY_NEW
 
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(modifier: Modifier = Modifier,mainViewModel: MainViewModel) {
     val context = LocalContext.current
     Scaffold(modifier = modifier, content = {
         Box(
@@ -61,32 +59,16 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                         .fillMaxSize()
                 )
                 DiscordLoginButton("Log in with Discord", R.drawable.ic_discord) {
-                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.DiscordUrl))
-                    val bundle = Bundle()
-                    bundle.putString("User-Agent", "Mage-Mobile")
-                    bundle.putString("x-api-key", "cdma2tw7ieznk3nqjpc7l7rkgcxrzm")
-                    browserIntent.putExtra(Browser.EXTRA_HEADERS, bundle)
-                    context.startActivity(browserIntent)
+                    mainViewModel.performLogin(context,"discord")
                 }
 
                 GmailLoginButton(name = "Log in with Gmail", icon = R.drawable.ic_gmail) {
-                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.GoogleUrl))
-                    val bundle = Bundle()
-                    bundle.putString("User-Agent", "Mage-Mobile")
-                    bundle.putString("x-api-key", "cdma2tw7ieznk3nqjpc7l7rkgcxrzm")
-                    browserIntent.putExtra(Browser.EXTRA_HEADERS, bundle)
-                    context.startActivity(browserIntent)
+                    mainViewModel.performLogin(context,"google")
                 }
 
                 GithubLoginButton(name = "Log in with Github", icon = R.drawable.ic_github) {
-                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.GithubUrl))
-                    val bundle = Bundle()
-                    bundle.putString("User-Agent", "Mage-Mobile")
-                    bundle.putString("x-api-key", "cdma2tw7ieznk3nqjpc7l7rkgcxrzm")
-                    browserIntent.putExtra(Browser.EXTRA_HEADERS, bundle)
-                    context.startActivity(browserIntent)
+                    mainViewModel.performLogin(context,"github")
                 }
-
             }
         }
     })

@@ -25,7 +25,6 @@ import com.google.gson.JsonObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.codecrow.mage.data.datasource.ChannelRemote
 import io.codecrow.mage.model.Channel
-import io.codecrow.mage.utils.Constant.X_API_KEY
 import io.codecrow.mage.utils.Constant.X_API_KEY_NEW
 import io.codecrow.mage.utils.PreferenceHelper
 import kotlinx.coroutines.launch

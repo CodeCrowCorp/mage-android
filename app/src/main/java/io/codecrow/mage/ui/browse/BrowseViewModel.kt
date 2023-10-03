@@ -33,8 +33,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BrowseViewModel @Inject constructor(private val preferenceHelper: PreferenceHelper,
-                                          private val channelRemote: ChannelRemote
-) : ViewModel() {
+                                          private val channelRemote: ChannelRemote) : ViewModel() {
 
     private val _uiState = MutableStateFlow<BrowseUiState>(BrowseUiState.Loading)
     val uiState: StateFlow<BrowseUiState> = _uiState

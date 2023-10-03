@@ -184,7 +184,6 @@ private fun LandscapePreview() {
     )
     MyApplicationTheme {
         BrowseScreen(channels, onClick = {}, onSubscribeClick = {})
-    }
 }
 
 @Composable

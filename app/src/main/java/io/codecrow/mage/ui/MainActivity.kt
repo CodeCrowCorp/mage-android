@@ -110,4 +110,3 @@ class MainActivity : ComponentActivity() {
 //    val channelId = backStackEntry.arguments?.getString("channelId")
 //    ChannelScreen(channelId)
 //}
-

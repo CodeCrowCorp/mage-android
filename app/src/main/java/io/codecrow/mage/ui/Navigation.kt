@@ -38,7 +38,6 @@ fun MainNavigation(route: String,mainViewModel: MainViewModel) {
         composable("login") {
             LoginScreen(modifier = Modifier.padding(16.dp),mainViewModel)
         }
-
         composable("main") {
             BrowseScreen(
                 navController = navController,

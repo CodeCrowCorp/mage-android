@@ -21,6 +21,7 @@ retrofit = "2.9.0"
 coilImage = "2.4.0"
 splashscreen = "1.0.0-beta02"
 http_logging = "4.10.0"
+okhttp = "4.10.0"
 firebaseBom = "32.2.2"
 googleService = "4.3.15"
 serializeVersion = "1.9.0"
@@ -57,6 +58,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "http_logging" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 coilImage = {module = "io.coil-kt:coil-compose", version.ref = "coilImage"}
 splashscreen = {module = "androidx.core:core-splashscreen", version.ref = "splashscreen"}
 accompanist = {module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist"}

@@ -43,6 +43,7 @@ class BrowseViewModel @Inject constructor(private val preferenceHelper: Preferen
 
     init {
         getChannels("", 0, 100)
+        subscribeToChannel()
     }
 
     private fun getChannels(searchQuery: String, skip: Int, limit: Int) {
@@ -57,13 +58,13 @@ class BrowseViewModel @Inject constructor(private val preferenceHelper: Preferen
 
     }
 
-    fun subscribeToChannel(channelId: String) {
+    private fun subscribeToChannel() {
         Firebase.messaging.token.addOnCompleteListener {
             viewModelScope.launch {
                 val jsonObject = JsonObject()
                 jsonObject.addProperty("deviceToken",it.result)
                 val hashMap = hashMapOf("x-api-key" to X_API_KEY_NEW,"User-Agent" to "Mage-Mobile", "token" to (preferenceHelper.getToken()?:""),"userId" to (preferenceHelper.getUserId() ?: ""))
-                channelRemote.subscribeToChannel(hashMap,channelId,jsonObject).either({
+                channelRemote.subscribeToChannel(hashMap,jsonObject).either({
                     _subscribeResponse.value = BrowseUiState.Error(it)
                 }, {
                     Log.d("HERE", it.toString())

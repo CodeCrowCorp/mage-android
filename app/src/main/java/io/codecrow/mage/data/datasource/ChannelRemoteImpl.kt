@@ -21,9 +21,9 @@ class ChannelRemoteImpl @Inject constructor(
         }
     }
 
-    override suspend fun subscribeToChannel(headerMap : HashMap<String,String>,channelId: String, jsonObject: JsonObject): Either<DataException, JsonObject> {
+    override suspend fun subscribeToChannel(headerMap : HashMap<String,String>, jsonObject: JsonObject): Either<DataException, JsonObject> {
         return handle({
-            api.subscribeToChannel(headerMap,channelId,jsonObject)
+            api.subscribeToChannel(headerMap,jsonObject)
         }) {
             Either.Right(it ?: JsonObject())
         }

@@ -91,10 +91,6 @@ fun BrowseScreen(
     if (items is BrowseUiState.Success) {
         BrowseScreen(items = (items as BrowseUiState.Success).data, modifier = modifier, onClick = {
             navController.navigate("channel/$it")
-        },{ channelId ->
-            Log.d("BrowseScreen", "BrowseScreen: ChannelId=$channelId")
-            //TODO: subscribe from here
-            viewModel.subscribeToChannel(channelId)
         })
     } else if (items is BrowseUiState.Loading) {
         LoadingView()
@@ -106,7 +102,7 @@ fun BrowseScreen(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun BrowseScreen(
-    items: List<Channel>, modifier: Modifier = Modifier, onClick: (String) -> Unit, onSubscribeClick : (channelId: String) -> Unit
+    items: List<Channel>, modifier: Modifier = Modifier, onClick: (String) -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val state = rememberLazyListState()
@@ -135,7 +131,7 @@ internal fun BrowseScreen(
 
                 ) {
                 items(items) { it: Channel ->
-                    ChannelItem(it,{ channelId -> onClick(channelId) },{ channelId -> onSubscribeClick(channelId)})
+                    ChannelItem(it,{ channelId -> onClick(channelId) })
                 }
             }
         })
@@ -161,7 +157,7 @@ private fun PortraitPreview() {
         )
     )
     MyApplicationTheme {
-        BrowseScreen(channels, onClick = {}, onSubscribeClick = {})
+        BrowseScreen(channels, onClick = {})
     }
 }
 
@@ -183,7 +179,7 @@ private fun LandscapePreview() {
         )
     )
     MyApplicationTheme {
-        BrowseScreen(channels, onClick = {}, onSubscribeClick = {})
+        BrowseScreen(channels, onClick = {})
     }
 }
 

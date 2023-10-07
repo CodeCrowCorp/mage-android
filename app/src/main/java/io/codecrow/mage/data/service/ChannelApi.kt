@@ -68,7 +68,7 @@ interface ChannelApi {
     suspend fun checkIfUserBlocked(@Query("channelId") channelId: String): List<Channel>
 
     @PATCH("favorites")
-    suspend fun subscribeToChannel(@HeaderMap headerMap : HashMap<String,String>,@Query("channelId") channelId: String,@Body jsonObject:JsonObject): Response<JsonObject>
+    suspend fun subscribeToChannel(@HeaderMap headerMap : HashMap<String,String>,@Body jsonObject:JsonObject): Response<JsonObject>
 
 }
 

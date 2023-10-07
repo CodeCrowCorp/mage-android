@@ -8,5 +8,5 @@ import io.codecrow.mage.model.Channel
 interface ChannelRemote {
 
     suspend fun getChannels(searchQuery: String, skip: Int, limit: Int): Either<DataException, List<Channel>>
-    suspend fun subscribeToChannel(headerMap : HashMap<String,String>,channelId: String,body: JsonObject): Either<DataException, JsonObject>
+    suspend fun subscribeToChannel(headerMap : HashMap<String,String>,body: JsonObject): Either<DataException, JsonObject>
 }

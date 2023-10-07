@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.codecrow.mage.data.service.AuthApi
 import io.codecrow.mage.data.service.ChannelApi
 import retrofit2.Retrofit
 import javax.inject.Singleton
@@ -16,5 +17,11 @@ object RetrofitServiceModule {
     @Singleton
     fun provideChannelService(retrofit: Retrofit): ChannelApi {
         return retrofit.create(ChannelApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthService(retrofit: Retrofit): AuthApi {
+        return retrofit.create(AuthApi::class.java)
     }
 }

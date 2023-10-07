@@ -16,4 +16,5 @@
 
 <resources>
     <string name="app_name">Mage</string>
+    <string name="default_notification_channel_id">mage_notification_channel</string>
 </resources>

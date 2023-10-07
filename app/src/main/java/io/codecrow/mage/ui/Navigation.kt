@@ -27,12 +27,17 @@ import androidx.navigation.compose.rememberNavController
 import io.codecrow.mage.ui.browse.BrowseScreen
 import io.codecrow.mage.ui.channel.ChannelScreen
 import io.codecrow.mage.ui.channel.ChannelViewModel
+import io.codecrow.mage.ui.login.LoginScreen
 
 @Composable
-fun MainNavigation() {
+fun MainNavigation(route: String,mainViewModel: MainViewModel) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "main") {
+    NavHost(navController = navController, startDestination = route) {
+
+        composable("login") {
+            LoginScreen(modifier = Modifier.padding(16.dp),mainViewModel)
+        }
         composable("main") {
             BrowseScreen(
                 navController = navController,

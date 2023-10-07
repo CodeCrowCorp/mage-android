@@ -17,13 +17,11 @@
 package io.codecrow.mage
 
 import android.app.Application
+
 import dagger.hilt.android.HiltAndroidApp
 
 
 @HiltAndroidApp
 class MageApplication : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
-    }
 }

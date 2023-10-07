@@ -21,6 +21,8 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt.gradle)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.service)
+    alias(libs.plugins.plugin.serialize)
 }
 
 android {
@@ -34,7 +36,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "io.codecrow.mage.HiltTestRunner"
+        testInstrumentationRunner =
+            "io.codecrow.mage.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -48,7 +51,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -130,6 +136,7 @@ dependencies {
     implementation(libs.retrofit)
     // Retrofit Gson converter
     implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     //CoilImage
     implementation(libs.coilImage)
@@ -139,4 +146,10 @@ dependencies {
 
     //Accompanist
     implementation(libs.accompanist)
+
+    //Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
+    implementation(libs.kotlin.serialize)
 }

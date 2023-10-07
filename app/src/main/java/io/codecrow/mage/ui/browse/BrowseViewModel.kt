@@ -19,24 +19,31 @@ package io.codecrow.mage.ui.browse
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
+import com.google.gson.JsonObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.codecrow.mage.data.datasource.ChannelRemote
 import io.codecrow.mage.model.Channel
+import io.codecrow.mage.utils.Constant.X_API_KEY_NEW
+import io.codecrow.mage.utils.PreferenceHelper
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
-class BrowseViewModel @Inject constructor(
-    private val channelRemote: ChannelRemote
-) : ViewModel() {
+class BrowseViewModel @Inject constructor(private val preferenceHelper: PreferenceHelper,
+                                          private val channelRemote: ChannelRemote) : ViewModel() {
 
     private val _uiState = MutableStateFlow<BrowseUiState>(BrowseUiState.Loading)
     val uiState: StateFlow<BrowseUiState> = _uiState
 
+    private val _subscribeResponse = MutableStateFlow<BrowseUiState>(BrowseUiState.Loading)
+    val subscribeResponse: StateFlow<BrowseUiState> = _subscribeResponse
 
     init {
         getChannels("", 0, 100)
+        subscribeToChannel()
     }
 
     private fun getChannels(searchQuery: String, skip: Int, limit: Int) {
@@ -50,10 +57,28 @@ class BrowseViewModel @Inject constructor(
         }
 
     }
+
+    private fun subscribeToChannel() {
+        Firebase.messaging.token.addOnCompleteListener {
+            viewModelScope.launch {
+                val jsonObject = JsonObject()
+                jsonObject.addProperty("deviceToken",it.result)
+                val hashMap = hashMapOf("x-api-key" to X_API_KEY_NEW,"User-Agent" to "Mage-Mobile", "token" to (preferenceHelper.getToken()?:""),"userId" to (preferenceHelper.getUserId() ?: ""))
+                channelRemote.subscribeToChannel(hashMap,jsonObject).either({
+                    _subscribeResponse.value = BrowseUiState.Error(it)
+                }, {
+                    Log.d("HERE", it.toString())
+                    _subscribeResponse.value = BrowseUiState.SuccessSubscribe(it)
+                })
+            }
+        }
+    }
 }
 
 sealed interface BrowseUiState {
     object Loading : BrowseUiState
     data class Error(val throwable: Throwable) : BrowseUiState
     data class Success(val data: List<Channel>) : BrowseUiState
+
+    data class SuccessSubscribe(val data: JsonObject) : BrowseUiState
 }

@@ -18,7 +18,7 @@ junit = "4.13.2"
 kotlin = "1.9.10"
 ksp = "1.9.10-1.0.13"
 retrofit = "2.9.0"
-coilImage = "2.4.0"
+coilImage = "2.5.0"
 splashscreen = "1.0.0-beta02"
 accompanist = "0.33.2-alpha"
 

@@ -1,5 +1,6 @@
 package io.codecrow.mage.data.datasource
 
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import io.codecrow.mage.data.DataException
 import io.codecrow.mage.data.Either
@@ -21,11 +22,11 @@ class ChannelRemoteImpl @Inject constructor(
         }
     }
 
-    override suspend fun subscribeToChannel(headerMap : HashMap<String,String>, jsonObject: JsonObject): Either<DataException, JsonObject> {
+    override suspend fun subscribeToChannel(headerMap : HashMap<String,String>, body: JsonObject): Either<DataException, JsonArray> {
         return handle({
-            api.subscribeToChannel(headerMap,jsonObject)
+            api.subscribeToChannel(headerMap,body)
         }) {
-            Either.Right(it ?: JsonObject())
+            Either.Right(it ?: JsonArray())
         }
     }
 }

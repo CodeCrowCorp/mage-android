@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.codecrow.mage.data.datasource.ChannelRemote
@@ -80,5 +81,5 @@ sealed interface BrowseUiState {
     data class Error(val throwable: Throwable) : BrowseUiState
     data class Success(val data: List<Channel>) : BrowseUiState
 
-    data class SuccessSubscribe(val data: JsonObject) : BrowseUiState
+    data class SuccessSubscribe(val data: JsonArray) : BrowseUiState
 }

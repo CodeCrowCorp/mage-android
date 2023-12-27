@@ -45,7 +45,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:scheme="mage-mobile"
+                    android:scheme="magemobile"
                     android:host="dev.mage.stream" />
 
             </intent-filter>

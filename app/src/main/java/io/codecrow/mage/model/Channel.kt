@@ -41,5 +41,5 @@ data class Channel(
 
     @SerializedName("userDetails")
     @Expose
-    var userDetails: UserDetails,
+    var userDetails: UserDetails?,
 )

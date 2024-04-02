@@ -88,7 +88,7 @@ fun ChannelDetail(channel: Channel, onClick: () -> Unit) {
                                     )
                             ) {
                                 Text(
-                                    text = "@" + channel.userDetails.username,
+                                    text = "@" + channel.userDetails?.username,
                                     color = MaterialTheme.colorScheme.onPrimary,
                                     style = TextStyle(
                                         //  fontFamily = FontFamily("Montserrat"),

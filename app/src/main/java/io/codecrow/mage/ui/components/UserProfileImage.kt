@@ -11,18 +11,21 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import io.codecrow.mage.R
 import io.codecrow.mage.ui.theme.shapes
 
 @Composable
-fun UserProfileImage(avatar: String) {
+fun UserProfileImage(avatar: String?) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(avatar)
             .crossfade(true)
             .build(),
+        error = painterResource(R.drawable.ic_logo),
 //    placeholder = painterResource(R.drawable.placeholder),
         contentDescription = "test",//stringResource(R.string.description),
         contentScale = ContentScale.Crop,

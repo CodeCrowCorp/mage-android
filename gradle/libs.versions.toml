@@ -19,7 +19,7 @@ kotlin = "2.0.20"
 ksp = "2.0.20-1.0.24"
 retrofit = "2.11.0"
 coilImage = "2.7.0"
-splashscreen = "1.2.0-alpha01"
+splashscreen = "1.2.0-alpha02"
 accompanist = "0.34.0"
 
 [libraries]
